@@ -1,0 +1,22 @@
+﻿namespace Models
+{
+    public class Vessel : Entity
+    {
+
+        public Vessel(byte lifepoints, byte columnPosition, byte rowposition, string model, string destructionModel)
+        {
+            this.LifePoints = lifepoints;
+            this.ColumnPosition = columnPosition;
+            this.RowPosition = rowposition;
+            this.Model = model;
+            this.DestructionModel = destructionModel;
+        }
+
+
+        public void BreakWall()
+        {
+
+        }
+
+    }
+}
