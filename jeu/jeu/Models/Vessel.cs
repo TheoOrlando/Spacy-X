@@ -9,8 +9,9 @@ namespace Models
     public class Vessel : Entity
     {
 
-        public Vessel(byte lifepoints, byte columnPosition, byte rowposition, string model, string destructionModel)
+        public Vessel(sbyte lifepoints,sbyte maxLife, byte columnPosition, byte rowposition, string model, string destructionModel)
         {
+            this.MaxLife = maxLife;
             this.LifePoints = lifepoints;
             this.ColumnPosition = columnPosition;
             this.RowPosition = rowposition;

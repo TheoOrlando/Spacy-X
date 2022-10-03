@@ -6,7 +6,22 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    internal class Class1
+    public class Wall : Entity
     {
+
+        public Wall(sbyte lifepoints, byte columnPosition, byte rowposition, string model)
+        {
+            this.LifePoints = lifepoints;
+            this.ColumnPosition = columnPosition;
+            this.RowPosition = rowposition;
+            this.Model = model;
+        }
+
+
+        public void WallBreak()
+        {
+
+        }
+
     }
 }

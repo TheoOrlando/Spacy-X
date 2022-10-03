@@ -10,7 +10,7 @@ namespace Models
     {
         private uint points;
 
-        public Alien(uint points, byte lifepoints, byte columnPosition, byte rowposition, string model, string destructionModel)
+        public Alien(uint points, sbyte lifepoints, byte columnPosition, byte rowposition, string model, string destructionModel)
         {
             this.Points = points;
             this.LifePoints = lifepoints;
