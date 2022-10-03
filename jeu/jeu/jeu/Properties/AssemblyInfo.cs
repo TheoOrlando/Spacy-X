@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("Envahisseurs_De_L'espace")]
+[assembly: AssemblyTitle("jeu")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DGEP")]
-[assembly: AssemblyProduct("Envahisseurs_De_L'espace")]
+[assembly: AssemblyProduct("jeu")]
 [assembly: AssemblyCopyright("Copyright © DGEP 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
-[assembly: Guid("44ec90cc-1d15-481a-aa09-577cb6003a01")]
+[assembly: Guid("45b1c95b-20cd-49d3-89f8-1b69e0ef339d")]
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //

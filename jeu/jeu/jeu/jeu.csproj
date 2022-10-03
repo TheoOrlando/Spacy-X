@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{44EC90CC-1D15-481A-AA09-577CB6003A01}</ProjectGuid>
+    <ProjectGuid>{45B1C95B-20CD-49D3-89F8-1B69E0EF339D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Envahisseurs_De_L_espace</RootNamespace>
-    <AssemblyName>Envahisseurs_De_L%27espace</AssemblyName>
+    <RootNamespace>jeu</RootNamespace>
+    <AssemblyName>jeu</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
