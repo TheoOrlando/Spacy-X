@@ -5,8 +5,8 @@
         private byte lifePoints;
         private byte columnPosition;
         private byte rowPosition;
-        private string model;
-        private string destructionModel;
+        private string model = "";
+        private string destructionModel = "";
 
         public byte LifePoints
         {

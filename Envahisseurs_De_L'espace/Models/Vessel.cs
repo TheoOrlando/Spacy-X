@@ -13,10 +13,23 @@
         }
 
 
-        public void BreakWall()
+        public void VesselMove()
         {
 
         }
+
+
+        public void VesselShot()
+        {
+
+        }
+
+        public void VesselDestroy()
+        {
+
+        }
+
+
 
     }
 }

@@ -10,6 +10,7 @@ namespace Envahisseurs_De_L_espace
     {
         static void Main(string[] args)
         {
+            Console.ReadLine();
         }
     }
 }

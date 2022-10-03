@@ -12,21 +12,10 @@
         }
 
 
-        public void MoveVessel()
+        public void WallBreak()
         {
 
         }
-
-        public void VesselShot()
-        {
-
-        }
-
-        public void Destroy()
-        {
-
-        }
-
 
     }
 }

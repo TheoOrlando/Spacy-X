@@ -20,7 +20,7 @@
             set => points = value;
         }
 
-        public void Destroy()
+        public void AlienDestroy()
         {
 
         }
