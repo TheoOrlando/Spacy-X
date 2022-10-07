@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlienTest .cs" />
     <Compile Include="VesselTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

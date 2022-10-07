@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,7 +29,9 @@ namespace Models
 
         public void AlienDestroy()
         {
-
+            this.Model = "";
+            this.ColumnPosition = 0;
+            this.RowPosition = 0;
         }
 
         public void AlienShot()

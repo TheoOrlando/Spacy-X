@@ -27,5 +27,6 @@ namespace Tests
             Vessel vessel = new Vessel(-1, 3, 0, 0, "", "");
             Assert.AreEqual(0, vessel.LifePoints);
         }
+
     }
 }
