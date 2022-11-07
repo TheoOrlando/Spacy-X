@@ -33,5 +33,17 @@ namespace Models
         {
 
         }
+
+        public void DisplayVessel()
+        {
+            Console.SetCursorPosition(10, 45);
+            string[] model = Model.Split('\n');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(55, 55 + i);
+                Console.Write(model[i]);
+            }
+
+        }
     }
 }
