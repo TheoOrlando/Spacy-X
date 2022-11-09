@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Models;
 
@@ -28,8 +29,7 @@ namespace jeu
             int cursorX = 0;
             int cursorY = 0;
             Game game = null;
-
-
+            
 
             //write the menu
             DisplayMenu();
@@ -44,6 +44,10 @@ namespace jeu
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
+                        if(activePage == "play")
+                        {
+                            game.Vessel.VesselShot();
+                        }
                         if (activePage == "about")
                             EraseOtherKey(cursorX, cursorY);
                         EraseCursor(activePage);
@@ -64,7 +68,8 @@ namespace jeu
                     case ConsoleKey.LeftArrow:
                         if (activePage == "play")
                         {
-                            game.Vessel.RowPosition -= 1;
+                            game.Vessel.EraseVessel();
+                            game.Vessel.ColumnPosition -= 1;
                             game.Vessel.DisplayVessel();
                         }
                         if (activePage == "about")
@@ -108,7 +113,8 @@ namespace jeu
                     case ConsoleKey.RightArrow:
                         if (activePage == "play")
                         {
-                            game.Vessel.RowPosition += 1;
+                            game.Vessel.EraseVessel();
+                            game.Vessel.ColumnPosition += 1;
                             game.Vessel.DisplayVessel();
                         }
                         if (activePage == "about")
@@ -152,7 +158,7 @@ namespace jeu
                         {
                             case "Play":
                                 Console.Clear();
-                                DisplayEnterPseudo(game);
+                                game = StartGame(DisplayEnterPseudo());
                                 activePage = "play";
                                 break;
                             case "Options":
@@ -656,21 +662,21 @@ namespace jeu
                                              / ___ \| |_) | (_) | |_| | |_
                                             /_/   \_\_.__/ \___/ \__,_|\__|");
         }
-        static void DisplayEnterPseudo(Game game)
+        static string DisplayEnterPseudo()
         {
             Console.SetCursorPosition(40, 10);
             Console.Write("Votre pseudo : ");
             string pseudo = Console.ReadLine();
             Console.Clear();
-            StartGame(pseudo, game);
+            return pseudo;
         }
-        static void StartGame(string pseudo, Game game)
+        static Game StartGame(string pseudo)
         {
-            game = new Game(0, pseudo);
-            Vessel vessel = new Vessel(3, 3, 10, 10, "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀", "");
+            Game game = new Game(0, pseudo);
+            Vessel vessel = new Vessel(3, 3, 55, 55, "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀", "");
             game.Vessel = vessel;
             game.Vessel.DisplayVessel();
-            
+            return game;
         }
     }
 }
