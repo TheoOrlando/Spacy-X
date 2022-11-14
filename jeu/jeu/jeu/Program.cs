@@ -13,6 +13,16 @@ namespace jeu
         public const string CURSOR = "-->";
         static sbyte cursorPosition = 0;
 
+        static string[] choiceList = new string[] { "Play", "Options", "Scores", "About", "Exit" };
+        static string activePage = "menu";
+        static byte nbOptions = 5;
+        static string[] difficultyList = new string[] { "easy", "normal", "difficult", "godmod" };
+        static byte difficulty = 1;
+        static bool music = true;
+        static int cursorX = 0;
+        static int cursorY = 0;
+        static Game game = null;
+
         static void Main(string[] args)
         {
             //set the size of the console
@@ -20,15 +30,7 @@ namespace jeu
             Console.WindowWidth = 120;
             Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
 
-            string[] choiceList = new string[] { "Play", "Options", "Scores", "About", "Exit" };
-            string activePage = "menu";
-            byte nbOptions = 5;
-            string[] difficultyList = new string[] { "easy", "normal", "difficult", "godmod" };
-            byte difficulty = 1;
-            bool music = true;
-            int cursorX = 0;
-            int cursorY = 0;
-            Game game = null;
+
             
 
             //write the menu
@@ -44,21 +46,72 @@ namespace jeu
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
-                        if(activePage == "play")
+                        switch (activePage)
                         {
-                            game.Vessel.VesselShot();
+                            case "menu":
+                                EraseCursor(activePage);
+                                if (cursorPosition > 0)
+                                    cursorPosition--;
+                                DisplayCursor(activePage);
+                                break;
+                            case "options":
+                                EraseCursor(activePage);
+                                if (cursorPosition > 0)
+                                    cursorPosition--;
+                                DisplayCursor(activePage);
+                                break;
+                            case "scores":
+                                break;
+                            case "about":
+                                EraseOtherKey();
+                                break;
+                            case "pseudo":
+                                EraseOtherKey();
+                                break;
+                            case "game":
+                                game.Vessel.VesselShot();
+                                break;
+                            case "gameOver":
+                                EraseOtherKey();
+                                break;
                         }
-                        if (activePage == "about")
-                            EraseOtherKey(cursorX, cursorY);
-                        EraseCursor(activePage);
-                        if (cursorPosition > 0)
-                            cursorPosition--;
-                        DisplayCursor(activePage);
                         break;
+                        
 
                     case ConsoleKey.DownArrow:
+                        switch (activePage)
+                        {
+                            case "menu":
+                                EraseCursor(activePage);
+                                if (cursorPosition > 0)
+                                    cursorPosition--;
+                                DisplayCursor(activePage);
+                                break;
+                            case "options":
+                                EraseCursor(activePage);
+                                if (cursorPosition > 0)
+                                    cursorPosition--;
+                                DisplayCursor(activePage);
+                                break;
+                            case "scores":
+                                break;
+                            case "about":
+                                EraseOtherKey();
+                                break;
+                            case "pseudo":
+                                EraseOtherKey();
+                                break;
+                            case "game":
+                                game.Vessel.VesselShot();
+                                break;
+                            case "gameOver":
+                                EraseOtherKey();
+                                break;
+                        }
+                        break;
+                        
                         if (activePage == "about")
-                            EraseOtherKey(cursorX, cursorY);
+                            EraseOtherKey();
                         EraseCursor(activePage);
                         if (cursorPosition < nbOptions - 1)
                             cursorPosition++;
@@ -73,41 +126,8 @@ namespace jeu
                             game.Vessel.DisplayVessel();
                         }
                         if (activePage == "about")
-                            EraseOtherKey(cursorX,cursorY);
-                        if (activePage == "options" && cursorPosition == 0)
-                        {
-                            if (difficulty == 0)
-                            {
-                                EraseDifficulty(difficulty);
-                                difficulty = 3;
-                                DisplayDifficulty(difficulty);
-                            }
-
-                            else
-                            {
-                                EraseDifficulty(difficulty);
-                                difficulty--;
-                                DisplayDifficulty(difficulty);
-                            }
-
-                        }
-                        else if (activePage == "options" && cursorPosition == 1)
-                        {
-                            if (music == true)
-                            {
-                                music = false;
-                                EraseMusic(music);
-                                DisplayMusic(music);
-                            }
-
-                            else
-                            {
-                                music = true;
-                                EraseMusic(music);
-                                DisplayMusic(music);
-                            }
-
-                        }
+                            EraseOtherKey();
+                        
                         break;
 
                     case ConsoleKey.RightArrow:
@@ -118,7 +138,7 @@ namespace jeu
                             game.Vessel.DisplayVessel();
                         }
                         if (activePage == "about")
-                            EraseOtherKey(cursorX, cursorY);
+                            EraseOtherKey();
                         if (activePage == "options" && cursorPosition == 0)
                         {
                             if (difficulty == 3)
@@ -154,35 +174,7 @@ namespace jeu
                         break;
 
                     case ConsoleKey.Enter:
-                        switch (choiceList[cursorPosition])
-                        {
-                            case "Play":
-                                Console.Clear();
-                                game = StartGame(DisplayEnterPseudo());
-                                activePage = "play";
-                                break;
-                            case "Options":
-                                Console.Clear();
-                                DisplayOptions();
-                                DisplayDifficulty(difficulty);
-                                DisplayMusic(music);
-                                activePage = "options";
-                                nbOptions = 2;
-                                cursorPosition = 0;
-                                DisplayCursor(activePage);
-                                break;
-                            case "Scores":
-                                break;
-                            case "About":
-                                Console.Clear();
-                                activePage = "about";
-                                DisplayAbout();
-                                break;
-                            case "Exit":
-                                Environment.Exit(0);
-                                break;
-                        }
-                        break;
+                        
 
                     case ConsoleKey.Escape:
                         if(activePage == "options" || activePage == "about" || activePage == "scores")
@@ -195,16 +187,98 @@ namespace jeu
                             //write the initial cursor
                             DisplayCursor(activePage);
                         }
-                        EraseOtherKey(cursorX, cursorY);
+                        EraseOtherKey();
                         break;
                     default:
-                        EraseOtherKey(cursorX, cursorY);
+                        EraseOtherKey();
                         break;
                 }
             }
         }
 
-        static void EraseOtherKey(int cursorX, int cursorY)
+        static void MenuKey()
+        {
+            ConsoleKey key = Console.ReadKey().Key;
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    EraseCursor(activePage);
+                    if (cursorPosition > 0)
+                        cursorPosition--;
+                    DisplayCursor(activePage);
+                    break;
+                case ConsoleKey.DownArrow:
+                    EraseCursor(activePage);
+                    if (cursorPosition < 4)
+                        cursorPosition++;
+                    DisplayCursor(activePage);
+                    break;
+                case ConsoleKey.Enter:
+                    switch (choiceList[cursorPosition])
+                    {
+                        case "Play":
+                            Console.Clear();
+                            game = StartGame(DisplayEnterPseudo());
+                            activePage = "play";
+                            break;
+                        case "Options":
+                            Console.Clear();
+                            DisplayOptions();
+                            DisplayDifficulty(difficulty);
+                            DisplayMusic(music);
+                            activePage = "options";
+                            nbOptions = 2;
+                            cursorPosition = 0;
+                            DisplayCursor(activePage);
+                            break;
+                        case "Scores":
+                            break;
+                        case "About":
+                            Console.Clear();
+                            activePage = "about";
+                            DisplayAbout();
+                            break;
+                        case "Exit":
+                            Environment.Exit(0);
+                            break;
+                    }
+                    break;
+                default:
+                    EraseOtherKey();
+                    break;
+            }
+        }
+        static void OptionsKey()
+        {
+            ConsoleKey key = Console.ReadKey().Key;
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    EraseCursor(activePage);
+                    if (cursorPosition > 0)
+                        cursorPosition--;
+                    DisplayCursor(activePage);
+                    break;
+                case ConsoleKey.DownArrow:
+                    EraseCursor(activePage);
+                    if (cursorPosition < 4)
+                        cursorPosition++;
+                    DisplayCursor(activePage);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    if(cursorPosition == 0)
+                    {
+
+                    }
+                    break;
+                case ConsoleKey.RightArrow:
+                    break;
+                default:
+                    EraseOtherKey();
+                    break;
+            }
+        }
+        static void EraseOtherKey()
         {
             cursorX = Console.CursorLeft;
             cursorY = Console.CursorTop;
