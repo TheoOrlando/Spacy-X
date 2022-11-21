@@ -9,9 +9,9 @@ namespace Models
 {
     public class Alien : Entity
     {
-        private uint points;
+        private int points;
 
-        public Alien(uint points, sbyte lifepoints, byte columnPosition, byte rowposition, string model, string destructionModel)
+        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model, string destructionModel)
         {
             this.Points = points;
             this.LifePoints = lifepoints;
@@ -21,24 +21,20 @@ namespace Models
             this.DestructionModel = destructionModel;
         }
 
-        public uint Points
+        public int Points
         {
             get => points;
             set => points = value;
         }
 
-        public void AlienDestroy()
+        public void Display()
         {
-            this.Model = "";
-            this.ColumnPosition = 0;
-            this.RowPosition = 0;
+            string[] model = Model.Split('\n');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                Console.Write(model[i]);
+            }
         }
-
-        public void AlienShot()
-        {
-
-        }
-
-
     }
 }

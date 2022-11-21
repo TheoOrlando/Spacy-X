@@ -9,10 +9,7 @@ namespace Models
 {
     public class Vessel : Entity
     {
-        private Thread trd;
-        Timer timer = null;
-
-        public Vessel(sbyte lifepoints,sbyte maxLife, byte columnPosition, byte rowposition, string model, string destructionModel)
+        public Vessel(int lifepoints,int maxLife, int columnPosition, int rowposition, string model, string destructionModel)
         {
             this.MaxLife = maxLife;
             this.LifePoints = lifepoints;
@@ -22,24 +19,8 @@ namespace Models
             this.DestructionModel = destructionModel;
         }
 
-        public void VesselMove()
-        {
 
-        }
-
-        public void VesselShot()
-        {
-            timer = new Timer(new TimerCallback(Shot));
-            timer.Change(0, 1);
-            timer.Dispose();
-        }
-
-        public void VesselDestroy()
-        {
-
-        }
-
-        public void DisplayVessel()
+        public void Display()
         {
             string[] model = Model.Split('\n');
             for (int i = 0; i < model.Length; i++)
@@ -47,23 +28,21 @@ namespace Models
                 Console.SetCursorPosition(ColumnPosition, RowPosition + i);
                 Console.Write(model[i]);
             }
-
         }
 
-        public void EraseVessel()
+        public void Erase()
         {
             string[] model = Model.Split('\n');
             for (int i = 0; i < model.Length; i++)
             {
                 Console.SetCursorPosition(ColumnPosition, RowPosition + i);
-                Console.Write("            ");
+                Console.Write("           ");
             }
-
         }
 
-        public void Shot(object state)
+        public void Shot()
         {
-            Laser laser = new Laser(ColumnPosition, RowPosition, "│");
+
         }
     }
 }

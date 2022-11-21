@@ -10,13 +10,20 @@ namespace jeu
 {
     internal class Program
     {
-        public const string CURSOR = "-->";
-        static sbyte cursorPosition = 0;
+        const string CURSOR = "-->";
+        const string WALL = " ████████████ \n██████████████\n██████████████\n██████  ██████\n█████    █████";
+        const string VESSEL = "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀";
+        const string ALIEN1 = "     ▄▄   \n   ▄████▄ \n  ██▄██▄██\n  ▄▀ ▀▀ ▀▄\n   ▀    ▀ ";
+        const string ALIEN2 = "   ▀▄   ▄▀  \n  ▄█▀███▀█▄ \n █▀███████▀█\n ▀ ▀▄▄ ▄▄▀ ▀";
+        const string ALIEN3 = " ▄▄▄████▄▄▄ \n███▀▀██▀▀███\n▀▀███▀▀███▀▀\n ▀█▄ ▀▀ ▄█▀ ";
+        const string ALIEN4 = "   ▄▄██████▄▄   \n ▄█▀██▀██▀██▀█▄ \n▀▀███▀▀██▀▀███▀▀\n   ▀        ▀   ";
+
+        static int cursorPosition = 0;
 
         static string[] choiceList = new string[] { "Play", "Options", "Scores", "About", "Exit" };
         static string activePage;
-        static byte nbOptions;
-        static byte difficulty = 1;
+        static int nbOptions;
+        static int difficulty = 1;
         static bool music = true;
         static int cursorX = 0;
         static int cursorY = 0;
@@ -25,9 +32,13 @@ namespace jeu
         static void Main(string[] args)
         {
             //set the size of the console
-            Console.WindowHeight = 55;
+            Console.WindowHeight = 60;
             Console.WindowWidth = 120;
             Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
+            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+
+            Console.CursorVisible = false;
+            Console.Title = "Spacy X";
 
             //write the menu
             DisplayMenu();
@@ -41,15 +52,19 @@ namespace jeu
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
-                        game.Vessel.VesselShot();
+                        //game.Vessel.VesselShot();
                         break;
                     case ConsoleKey.LeftArrow:
+                        game.Vessel.Erase();
+                        if(game.Vessel.ColumnPosition > 1)
                         game.Vessel.ColumnPosition--;
-                        game.Vessel.VesselMove();
+                        game.Vessel.Display();
                         break;
                     case ConsoleKey.RightArrow:
+                        game.Vessel.Erase();
+                        if(game.Vessel.ColumnPosition < 109)
                         game.Vessel.ColumnPosition++;
-                        game.Vessel.VesselMove();
+                        game.Vessel.Display();
                         break;
                     default:
                         EraseOtherKey();
@@ -227,6 +242,10 @@ namespace jeu
 
 
 
+
+
+
+
                                                   ____  _
                                                  |  _ \| | __ _ _   _
                                                  | |_) | |/ _` | | | |
@@ -281,27 +300,27 @@ namespace jeu
                     switch (cursorPosition)
                     {
                         case 0:
-                            Console.SetCursorPosition(38, 15);
+                            Console.SetCursorPosition(38, 19);
                             Console.Write("   ");
                             break;
                         case 1:
-                            Console.SetCursorPosition(31, 24);
+                            Console.SetCursorPosition(31, 28);
                             Console.Write("   ");
                             break;
                         case 2:
-                            Console.SetCursorPosition(33, 33);
+                            Console.SetCursorPosition(33, 37);
                             Console.Write("   ");
                             break;
                         case 3:
-                            Console.SetCursorPosition(33, 41);
+                            Console.SetCursorPosition(33, 45);
                             Console.Write("   ");
                             break;
                         case 4:
-                            Console.SetCursorPosition(38, 49);
+                            Console.SetCursorPosition(38, 54);
                             Console.Write("   ");
                             break;
                         default:
-                            Console.SetCursorPosition(38, 15);
+                            Console.SetCursorPosition(38, 19);
                             Console.Write("   ");
                             break;
                     }
@@ -366,27 +385,27 @@ namespace jeu
                     switch (cursorPosition)
                     {
                         case 0:
-                            Console.SetCursorPosition(38, 15);
+                            Console.SetCursorPosition(38, 19);
                             Console.Write(CURSOR);
                             break;
                         case 1:
-                            Console.SetCursorPosition(31, 24);
+                            Console.SetCursorPosition(31, 28);
                             Console.Write(CURSOR);
                             break;
                         case 2:
-                            Console.SetCursorPosition(33, 33);
+                            Console.SetCursorPosition(33, 37);
                             Console.Write(CURSOR);
                             break;
                         case 3:
-                            Console.SetCursorPosition(33, 41);
+                            Console.SetCursorPosition(33, 45);
                             Console.Write(CURSOR);
                             break;
                         case 4:
-                            Console.SetCursorPosition(38, 49);
+                            Console.SetCursorPosition(38, 54);
                             Console.Write(CURSOR);
                             break;
                         default:
-                            Console.SetCursorPosition(38, 15);
+                            Console.SetCursorPosition(38, 19);
                             Console.Write(CURSOR);
                             break;
                     }
@@ -689,9 +708,63 @@ namespace jeu
         {
             Console.Clear();
             game = new Game(0, pseudo);
-            Vessel vessel = new Vessel(3, 3, 55, 55, "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀", "");
+
+            Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, "");
+
+            Wall wall1 = new Wall(2, 8, 45, WALL);
+            Wall wall2 = new Wall(2, 31, 45, WALL);
+            Wall wall3 = new Wall(2, 54, 45, WALL);
+            Wall wall4 = new Wall(2, 77, 45, WALL);
+            Wall wall5 = new Wall(2, 100, 45, WALL);
+
+            int x = 0;
+            int y = 3;
+            string model = ALIEN1;
+            for (int a = 1; a < 4; a++)
+            {
+                x = 0;
+                switch (a)
+                {
+                    case 1:
+                        model = ALIEN1;
+                        break;
+                    case 2:
+                        model = ALIEN2;
+                        break;
+                    case 3:
+                        model = ALIEN3;
+                        break;
+                }
+                for (int i = 0; i < 6; i++)
+                {
+
+                    Alien alien = new Alien(50, 1, x, y, model, "");
+                    game.AlienList.Add(alien);
+                    x += 14;
+                }
+                y += 6;
+            }
+
+            game.WallList.Add(wall1);
+            game.WallList.Add(wall2);
+            game.WallList.Add(wall3);
+            game.WallList.Add(wall4);
+            game.WallList.Add(wall5);
+
             game.Vessel = vessel;
-            game.Vessel.DisplayVessel();
+
+            game.Vessel.Display();
+
+            foreach (Wall wall in game.WallList)
+            {
+                wall.Display();
+            }
+
+            foreach (Alien alien in game.AlienList)
+            {
+                alien.Display();
+            }
+
             activePage = "game";
             Gamekey();
         }

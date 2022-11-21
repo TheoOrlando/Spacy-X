@@ -23,5 +23,15 @@ namespace Models
 
         }
 
+        public void Display()
+        {
+            string[] model = Model.Split('\n');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                Console.Write(model[i]);
+            }
+        }
+
     }
 }

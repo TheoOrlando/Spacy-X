@@ -12,8 +12,8 @@ namespace Models
         private uint points;
         private string pseudo;
         Vessel vessel;
-        List<Alien> alienList;
-        List<Wall> wallList;
+        List<Alien> alienList = new List<Alien>();
+        List<Wall> wallList = new List<Wall>();
 
         public Game(uint points, string pseudo)
         {

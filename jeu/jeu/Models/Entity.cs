@@ -8,14 +8,14 @@ namespace Models
 {
     public class Entity
     {
-        private sbyte lifePoints;
-        private sbyte maxLife;
-        private byte columnPosition;
-        private byte rowPosition;
+        private int lifePoints;
+        private int maxLife;
+        private int columnPosition;
+        private int rowPosition;
         private string model = "";
         private string destructionModel = "";
 
-        public sbyte LifePoints
+        public int LifePoints
         {
             get => lifePoints;
             set
@@ -29,13 +29,14 @@ namespace Models
             }
         }
 
-        public byte ColumnPosition
+        public int ColumnPosition
         {
             get => columnPosition;
             set => columnPosition = value;
+
         }
 
-        public byte RowPosition
+        public int RowPosition
         {
             get => rowPosition;
             set => rowPosition = value;
@@ -52,6 +53,6 @@ namespace Models
             get => destructionModel;
             set => destructionModel = value;
         }
-        public sbyte MaxLife { get => maxLife; set => maxLife = value; }
+        public int MaxLife { get => maxLife; set => maxLife = value; }
     }
 }
