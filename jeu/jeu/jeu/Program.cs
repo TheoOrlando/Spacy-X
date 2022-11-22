@@ -10,7 +10,8 @@ namespace jeu
 {
     internal class Program
     {
-        const string CURSOR = "-->";
+        const string CURSORRIGHT = "      ▄  \n▄▄▄▄▄▄██▄\n▀▀▀▀▀▀██▀\n      ▀  ";
+        const string CURSORLEFT = "  ▄      \n▄██▄▄▄▄▄▄\n▀██▀▀▀▀▀▀\n  ▀      ";
         const string WALL = " ████████████ \n██████████████\n██████████████\n██████  ██████\n█████    █████";
         const string VESSEL = "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀";
         const string ALIEN1 = "     ▄▄   \n   ▄████▄ \n  ██▄██▄██\n  ▄▀ ▀▀ ▀▄\n   ▀    ▀ ";
@@ -20,7 +21,11 @@ namespace jeu
 
         static int cursorPosition = 0;
 
-        static string[] choiceList = new string[] { "Play", "Options", "Scores", "About", "Exit" };
+        static string[] menuOptions = new string[] { "Play", "Options", "Scores", "About", "Exit" };
+        static string[] difficultys = new string[] { @"   ___  __ _ ___ _   _ =  / _ \/ _` / __| | | |= |  __/ (_| \__ \ |_| |=  \___|\__,_|___/\__, |=                  |___/",
+                                                     @"                                   _ =  _ __   ___  _ __ _ __ ___   __ _| |=", "", ""};
+        static int[,] cursorPositionsMenu = new int[,] { { 37, 18 }, { 30, 27 }, { 32, 36 }, { 32, 44 }, { 37, 53 } };
+        static int[,,] cursorPositionOptions = new int[,,] {{{ 23, 15 },{ 88, 15 }},{{ 33, 36 },{ 75, 36 }}};
         static string activePage;
         static int nbOptions;
         static int difficulty = 1;
@@ -28,6 +33,7 @@ namespace jeu
         static int cursorX = 0;
         static int cursorY = 0;
         static Game game = null;
+        static string[] model;
 
         static void Main(string[] args)
         {
@@ -43,101 +49,128 @@ namespace jeu
             //write the menu
             DisplayMenu();
         }
-
+        /// <summary>
+        /// Key interpreter for the game
+        /// </summary>
         static void Gamekey()
         {
             while (activePage == "game")
             {
+                // recovers the pressed key
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
+                    // shot a laser
                     case ConsoleKey.UpArrow:
-                        //game.Vessel.VesselShot();
                         break;
+                    // moves the vessel to the left
                     case ConsoleKey.LeftArrow:
-                        game.Vessel.Erase();
-                        if(game.Vessel.ColumnPosition > 1)
-                        game.Vessel.ColumnPosition--;
+                        game.Vessel.Delete();
+                        if (game.Vessel.ColumnPosition > 1)
+                            game.Vessel.ColumnPosition--;
                         game.Vessel.Display();
                         break;
+                    // moves the vessel to the right
                     case ConsoleKey.RightArrow:
-                        game.Vessel.Erase();
-                        if(game.Vessel.ColumnPosition < 109)
-                        game.Vessel.ColumnPosition++;
+                        game.Vessel.Delete();
+                        if (game.Vessel.ColumnPosition < 109)
+                            game.Vessel.ColumnPosition++;
                         game.Vessel.Display();
                         break;
+                    // erase the other pressed key
                     default:
                         EraseOtherKey();
                         break;
                 }
             }
         }
+        /// <summary>
+        /// Key interpreter for the main menu
+        /// </summary>
         static void MenuKey()
         {
-            while(activePage == "menu")
+            while (activePage == "menu")
             {
+                // recovers the pressed key
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
+                    // Turns the slider up a notch
                     case ConsoleKey.UpArrow:
                         EraseCursor();
                         if (cursorPosition > 0)
                             cursorPosition--;
                         DisplayCursor();
                         break;
+                    // Moves the slider down a notch
                     case ConsoleKey.DownArrow:
                         EraseCursor();
                         if (cursorPosition < 4)
                             cursorPosition++;
                         DisplayCursor();
                         break;
+                    // Chose the entrance the cursor watch
                     case ConsoleKey.Enter:
-                        switch (choiceList[cursorPosition])
+                        switch (menuOptions[cursorPosition])
                         {
+                            // display the page for the pseudo
                             case "Play":
                                 DisplayEnterPseudo();
                                 break;
+                            // display the options page
                             case "Options":
                                 DisplayOptions();
                                 break;
+                            // display the highscores table
                             case "Scores":
                                 break;
+                            // display the about page
                             case "About":
                                 Console.Clear();
                                 activePage = "about";
                                 DisplayAbout();
                                 break;
+                            // quits the application
                             case "Exit":
                                 Environment.Exit(0);
                                 break;
                         }
                         break;
+                    // erase the other pressed key
                     default:
                         EraseOtherKey();
                         break;
                 }
             }
         }
+        /// <summary>
+        /// Key interpreter for the option page
+        /// </summary>
         static void OptionsKey()
         {
-            while(activePage == "options")
+            while (activePage == "options")
             {
+                // recovers the pressed key
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
+                    // Turns the slider up a notch
                     case ConsoleKey.UpArrow:
                         EraseCursor();
                         if (cursorPosition > 0)
                             cursorPosition--;
                         DisplayCursor();
                         break;
+                    // Moves the slider down a notch
                     case ConsoleKey.DownArrow:
                         EraseCursor();
                         if (cursorPosition < nbOptions)
                             cursorPosition++;
                         DisplayCursor();
                         break;
+                    // change de difficuty or the music
                     case ConsoleKey.LeftArrow:
+                        // change the difficulty godmod <= easy <= normal <= difficult <= godmod
                         if (cursorPosition == 0)
                         {
                             EraseDifficulty();
@@ -151,6 +184,7 @@ namespace jeu
                             }
                             DisplayDifficulty();
                         }
+                        // change the music off <= on <= off
                         if (cursorPosition == 1)
                         {
                             EraseMusic();
@@ -165,7 +199,9 @@ namespace jeu
                             DisplayMusic();
                         }
                         break;
+                    // change de difficuty or the music
                     case ConsoleKey.RightArrow:
+                        // change the difficulty easy => normal => difficult => godmod => easy
                         if (cursorPosition == 0)
                         {
                             EraseDifficulty();
@@ -179,6 +215,7 @@ namespace jeu
                             }
                             DisplayDifficulty();
                         }
+                        // change the music on => off => on
                         if (cursorPosition == 1)
                         {
                             EraseMusic();
@@ -193,31 +230,42 @@ namespace jeu
                             DisplayMusic();
                         }
                         break;
+                    // return to the main menu
                     case ConsoleKey.Escape:
                         DisplayMenu();
                         break;
+                    // erase the other pressed key
                     default:
                         EraseOtherKey();
                         break;
                 }
             }
         }
+        /// <summary>
+        /// Key interpreter for the about page
+        /// </summary>
         static void Aboutkey()
         {
-            while(activePage == "about")
+            while (activePage == "about")
             {
+                // recovers the pressed key
                 ConsoleKey key = Console.ReadKey().Key;
                 switch (key)
                 {
+                    // return to the main menu
                     case ConsoleKey.Escape:
                         DisplayMenu();
                         break;
+                    // erase the other pressed key
                     default:
                         EraseOtherKey();
                         break;
                 }
             }
         }
+        /// <summary>
+        /// erase the precedent pressed key
+        /// </summary>
         static void EraseOtherKey()
         {
             cursorX = Console.CursorLeft;
@@ -226,6 +274,9 @@ namespace jeu
             Console.Write(" ");
             Console.SetCursorPosition(cursorX - 1, cursorY);
         }
+        /// <summary>
+        /// Display the main menu
+        /// </summary>
         static void DisplayMenu()
         {
             Console.Clear();
@@ -289,6 +340,7 @@ namespace jeu
             nbOptions = 5;
             cursorPosition = 0;
             DisplayCursor();
+            // start the key interpreter
             MenuKey();
         }
         static void EraseCursor()
@@ -296,81 +348,29 @@ namespace jeu
             switch (activePage)
             {
                 case "menu":
-                    //erase the previous cursor
-                    switch (cursorPosition)
+                    // erase the cursor on the menu
+                    string[] model = CURSORRIGHT.Split('\n');
+                    for (int i = 0; i < model.Length; i++)
                     {
-                        case 0:
-                            Console.SetCursorPosition(38, 19);
-                            Console.Write("   ");
-                            break;
-                        case 1:
-                            Console.SetCursorPosition(31, 28);
-                            Console.Write("   ");
-                            break;
-                        case 2:
-                            Console.SetCursorPosition(33, 37);
-                            Console.Write("   ");
-                            break;
-                        case 3:
-                            Console.SetCursorPosition(33, 45);
-                            Console.Write("   ");
-                            break;
-                        case 4:
-                            Console.SetCursorPosition(38, 54);
-                            Console.Write("   ");
-                            break;
-                        default:
-                            Console.SetCursorPosition(38, 19);
-                            Console.Write("   ");
-                            break;
+                        Console.SetCursorPosition(cursorPositionsMenu[cursorPosition, 0], cursorPositionsMenu[cursorPosition, 1] + i);
+                        Console.Write("         ");
                     }
                     break;
 
                 case "options":
-                    switch (cursorPosition)
+                    //write the left cursor on the option page
+                    model = CURSORLEFT.Split('\n');
+                    for (int i = 0; i < model.Length; i++)
                     {
-                        case 0:
-                            //write the left arrow
-                            Console.SetCursorPosition(23, 15);
-                            Console.WriteLine(@"   ");
-                            Console.SetCursorPosition(23, 16);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(23, 17);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(23, 18);
-                            Console.WriteLine(@"   ");
-
-                            //write the right arrow
-                            Console.SetCursorPosition(88, 15);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(88, 16);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(88, 17);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(88, 18);
-                            Console.WriteLine(@"         ");
-                            break;
-                        case 1:
-                            //write the left arrow
-                            Console.SetCursorPosition(33, 36);
-                            Console.WriteLine(@"   ");
-                            Console.SetCursorPosition(33, 37);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(33, 38);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(33, 39);
-                            Console.WriteLine(@"   ");
-
-                            //write the right arrow
-                            Console.SetCursorPosition(75, 36);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(75, 37);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(75, 38);
-                            Console.WriteLine(@"         ");
-                            Console.SetCursorPosition(75, 39);
-                            Console.WriteLine(@"         ");
-                            break;
+                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 0, 0], cursorPositionOptions[cursorPosition, 0, 1] + i);
+                        Console.Write("         ");
+                    }
+                    //write the right cursor on the option page
+                    model = CURSORRIGHT.Split('\n');
+                    for (int i = 0; i < model.Length; i++)
+                    {
+                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 1, 0], cursorPositionOptions[cursorPosition, 1, 1] + i);
+                        Console.Write("         ");
                     }
                     break;
             }
@@ -382,79 +382,27 @@ namespace jeu
             {
                 case "menu":
                     //write the cursor on the menu
-                    switch (cursorPosition)
+                    model = CURSORRIGHT.Split('\n');
+                    for (int i = 0; i < model.Length; i++)
                     {
-                        case 0:
-                            Console.SetCursorPosition(38, 19);
-                            Console.Write(CURSOR);
-                            break;
-                        case 1:
-                            Console.SetCursorPosition(31, 28);
-                            Console.Write(CURSOR);
-                            break;
-                        case 2:
-                            Console.SetCursorPosition(33, 37);
-                            Console.Write(CURSOR);
-                            break;
-                        case 3:
-                            Console.SetCursorPosition(33, 45);
-                            Console.Write(CURSOR);
-                            break;
-                        case 4:
-                            Console.SetCursorPosition(38, 54);
-                            Console.Write(CURSOR);
-                            break;
-                        default:
-                            Console.SetCursorPosition(38, 19);
-                            Console.Write(CURSOR);
-                            break;
+                        Console.SetCursorPosition(cursorPositionsMenu[cursorPosition, 0], cursorPositionsMenu[cursorPosition, 1] + i);
+                        Console.Write(model[i]);
                     }
                     break;
                 case "options":
-                    switch (cursorPosition)
+                    //write the left cursor on the option page
+                    model = CURSORLEFT.Split('\n');
+                    for (int i = 0; i < model.Length; i++)
                     {
-                        case 0:
-                            //write the left arrow
-                            Console.SetCursorPosition(23, 15);
-                            Console.WriteLine(@"  ▄");
-                            Console.SetCursorPosition(23, 16);
-                            Console.WriteLine(@"▄██▄▄▄▄▄▄");
-                            Console.SetCursorPosition(23, 17);
-                            Console.WriteLine(@"▀██▀▀▀▀▀▀");
-                            Console.SetCursorPosition(23, 18);
-                            Console.WriteLine(@"  ▀");
-
-                            //write the right arrow
-                            Console.SetCursorPosition(88, 15);
-                            Console.WriteLine(@"      ▄  ");
-                            Console.SetCursorPosition(88, 16);
-                            Console.WriteLine(@"▄▄▄▄▄▄██▄");
-                            Console.SetCursorPosition(88, 17);
-                            Console.WriteLine(@"▀▀▀▀▀▀██▀");
-                            Console.SetCursorPosition(88, 18);
-                            Console.WriteLine(@"      ▀  ");
-                            break;
-                        case 1:
-                            //write the left arrow
-                            Console.SetCursorPosition(33, 36);
-                            Console.WriteLine(@"  ▄");
-                            Console.SetCursorPosition(33, 37);
-                            Console.WriteLine(@"▄██▄▄▄▄▄▄");
-                            Console.SetCursorPosition(33, 38);
-                            Console.WriteLine(@"▀██▀▀▀▀▀▀");
-                            Console.SetCursorPosition(33, 39);
-                            Console.WriteLine(@"  ▀");
-
-                            //write the right arrow
-                            Console.SetCursorPosition(75, 36);
-                            Console.WriteLine(@"      ▄  ");
-                            Console.SetCursorPosition(75, 37);
-                            Console.WriteLine(@"▄▄▄▄▄▄██▄");
-                            Console.SetCursorPosition(75, 38);
-                            Console.WriteLine(@"▀▀▀▀▀▀██▀");
-                            Console.SetCursorPosition(75, 39);
-                            Console.WriteLine(@"      ▀  ");
-                            break;
+                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 0, 0], cursorPositionOptions[cursorPosition, 0 , 1] + i);
+                        Console.Write(model[i]);
+                    }
+                    //write the right cursor on the option page
+                    model = CURSORRIGHT.Split('\n');
+                    for (int i = 0; i < model.Length; i++)
+                    {
+                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 1, 0], cursorPositionOptions[cursorPosition, 1, 1] + i);
+                        Console.Write(model[i]);
                     }
                     break;
             }
@@ -674,7 +622,7 @@ namespace jeu
             DisplayDifficulty();
             DisplayMusic();
             activePage = "options";
-            nbOptions = 2;
+            nbOptions = 1;
             cursorPosition = 0;
             DisplayCursor();
             OptionsKey();
@@ -764,6 +712,9 @@ namespace jeu
             {
                 alien.Display();
             }
+
+            game.DisplayScore();
+            game.DisplayLife();
 
             activePage = "game";
             Gamekey();

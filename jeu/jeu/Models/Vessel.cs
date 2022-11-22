@@ -19,7 +19,9 @@ namespace Models
             this.DestructionModel = destructionModel;
         }
 
-
+        /// <summary>
+        /// Display the vessel
+        /// </summary>
         public void Display()
         {
             string[] model = Model.Split('\n');
@@ -29,8 +31,10 @@ namespace Models
                 Console.Write(model[i]);
             }
         }
-
-        public void Erase()
+        /// <summary>
+        /// Delete the vessel
+        /// </summary>
+        public void Delete()
         {
             string[] model = Model.Split('\n');
             for (int i = 0; i < model.Length; i++)
@@ -39,7 +43,9 @@ namespace Models
                 Console.Write("           ");
             }
         }
-
+        /// <summary>
+        /// The vessel shot a laser
+        /// </summary>
         public void Shot()
         {
 

@@ -27,6 +27,9 @@ namespace Models
             set => points = value;
         }
 
+        /// <summary>
+        /// Display The Alien in multiple ligne
+        /// </summary>
         public void Display()
         {
             string[] model = Model.Split('\n');
