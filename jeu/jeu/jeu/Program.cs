@@ -63,7 +63,7 @@ namespace jeu
             while (activePage == "game")
             {
                 // recovers the pressed key
-                ConsoleKey key = Console.ReadKey().Key;
+                ConsoleKey key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     // shot a laser
@@ -85,7 +85,6 @@ namespace jeu
                         break;
                     // erase the other pressed key
                     default:
-                        EraseOtherKey();
                         break;
                 }
             }
@@ -98,7 +97,7 @@ namespace jeu
             while (activePage == "menu")
             {
                 // recovers the pressed key
-                ConsoleKey key = Console.ReadKey().Key;
+                ConsoleKey key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     // Turns the slider up a notch
@@ -144,7 +143,6 @@ namespace jeu
                         break;
                     // erase the other pressed key
                     default:
-                        EraseOtherKey();
                         break;
                 }
             }
@@ -157,7 +155,7 @@ namespace jeu
             while (activePage == "options")
             {
                 // recovers the pressed key
-                ConsoleKey key = Console.ReadKey().Key;
+                ConsoleKey key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     // Turns the slider up a notch
@@ -242,7 +240,6 @@ namespace jeu
                         break;
                     // erase the other pressed key
                     default:
-                        EraseOtherKey();
                         break;
                 }
             }
@@ -255,7 +252,7 @@ namespace jeu
             while (activePage == "about")
             {
                 // recovers the pressed key
-                ConsoleKey key = Console.ReadKey().Key;
+                ConsoleKey key = Console.ReadKey(true).Key;
                 switch (key)
                 {
                     // return to the main menu
@@ -264,7 +261,6 @@ namespace jeu
                         break;
                     // erase the other pressed key
                     default:
-                        EraseOtherKey();
                         break;
                 }
             }

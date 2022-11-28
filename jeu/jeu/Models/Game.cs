@@ -74,25 +74,25 @@ namespace Models
                 {
                     foreach (Alien alien2 in AlienList)
                     {
-                        alien2.Move(1, 1);
+                        alien2.Move(-1, 1);
                         _right = false;
                     }
-                    alien.Move(1, 0);
+                    //alien.Move(1, 0);
                 }
                 if (alien.ColumnPosition == 0)
                 {
                     foreach (Alien alien2 in AlienList)
                     {
-                        alien2.Move(-1, 1);
+                        alien2.Move(1, 1);
                         _right = true;
                     }
-                    alien.Move(-1, 0);
+                    //alien.Move(-1, 0);
                 }
-                if (_right)
+                if (_right && alien.ColumnPosition !=105)
                 {
                     alien.Move(1, 0);
                 }
-                else 
+                else if(alien.ColumnPosition !=104)
                 {
                     alien.Move(-1, 0);
                 }
