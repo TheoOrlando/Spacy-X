@@ -39,5 +39,21 @@ namespace Models
                 Console.Write(model[i]);
             }
         }
+
+        public void Erase()
+        {
+            string[] model = Model.Split('\n');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                Console.Write("               ");
+            }
+        }
+
+        public void Move(int x, int y)
+        {
+            string[] model = Model.Split('\n');
+            Console.MoveBufferArea(ColumnPosition, RowPosition, model[0].Length, model.Length, ColumnPosition += x, RowPosition += y);
+        }
     }
 }

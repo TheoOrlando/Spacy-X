@@ -4,16 +4,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
+
 
 namespace Models
 {
     public class Game 
     {
+        private bool _right = true;
         private int score;
         private string pseudo;
-        Vessel vessel;
-        List<Alien> alienList = new List<Alien>();
-        List<Wall> wallList = new List<Wall>();
+        private Vessel vessel;
+        private List<Alien> alienList = new List<Alien>();
+        private List<Wall> wallList = new List<Wall>();
 
         public Game(int points, string pseudo)
         {
@@ -61,6 +64,39 @@ namespace Models
         {
             Console.SetCursorPosition(90, 1);
             Console.Write("Life: " + vessel.LifePoints);
+        }
+
+        public void AliensMovement(Object source, ElapsedEventArgs e)
+        {
+            foreach (Alien alien in AlienList)
+            {
+                if(alien.ColumnPosition == 105)
+                {
+                    foreach (Alien alien2 in AlienList)
+                    {
+                        alien2.Move(1, 1);
+                        _right = false;
+                    }
+                    alien.Move(1, 0);
+                }
+                if (alien.ColumnPosition == 0)
+                {
+                    foreach (Alien alien2 in AlienList)
+                    {
+                        alien2.Move(-1, 1);
+                        _right = true;
+                    }
+                    alien.Move(-1, 0);
+                }
+                if (_right)
+                {
+                    alien.Move(1, 0);
+                }
+                else 
+                {
+                    alien.Move(-1, 0);
+                }
+            }
         }
 
     }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Models;
+using System.Timers;
 
 namespace jeu
 {
@@ -23,9 +23,15 @@ namespace jeu
 
         static string[] menuOptions = new string[] { "Play", "Options", "Scores", "About", "Exit" };
         static string[] difficultys = new string[] { @"   ___  __ _ ___ _   _ =  / _ \/ _` / __| | | |= |  __/ (_| \__ \ |_| |=  \___|\__,_|___/\__, |=                  |___/",
-                                                     @"                                   _ =  _ __   ___  _ __ _ __ ___   __ _| |=", "", ""};
+                                                     @"                                   _ =  _ __   ___  _ __ _ __ ___   __ _| |= | '_ \ / _ \| '__| '_ ` _ \ / _` | |= | | | | (_) | |  | | | | | | (_| | |= |_| |_|\___/|_|  |_| |_| |_|\__,_|_|",
+                                                     @"     _ _  __  __ _            _ _   =  __| (_)/ _|/ _(_) ___ _   _| | |_ = / _` | | |_| |_| |/ __| | | | | __|=| (_| | |  _|  _| | (__| |_| | | |_ = \__,_|_|_| |_| |_|\___|\__,_|_|\__|",
+                                                     @"                 _                     _=  __ _  ___   __| |_ __ ___   ___   __| |= / _` |/ _ \ / _` | '_ ` _ \ / _ \ / _` |=| (_| | (_) | (_| | | | | | | (_) | (_| |= \__, |\___/ \__,_|_| |_| |_|\___/ \__,_|= |___/"};
+        static string[] musics = new string[] { @"   ___  _ __  =  / _ \| '_ \ = | (_) | | | |=  \___/|_| |_|",
+                                                @"         __  __ =   ___  / _|/ _|=  / _ \| |_| |_ = | (_) |  _|  _|=  \___/|_| |_|  =" };
         static int[,] cursorPositionsMenu = new int[,] { { 37, 18 }, { 30, 27 }, { 32, 36 }, { 32, 44 }, { 37, 53 } };
-        static int[,,] cursorPositionOptions = new int[,,] {{{ 23, 15 },{ 88, 15 }},{{ 33, 36 },{ 75, 36 }}};
+        static int[,,] cursorPositionOptions = new int[,,] { { { 23, 15 }, { 88, 15 } }, { { 33, 36 }, { 75, 36 } } };
+        static int[,] difficultysPositions = new int[,] { { 46, 15 }, { 41, 14 }, { 42, 14 }, { 38, 14 } };
+        static int[,] musicspositions = new int[,] { { 51, 36 }, { 50, 35 }};
         static string activePage;
         static int nbOptions;
         static int difficulty = 1;
@@ -67,14 +73,14 @@ namespace jeu
                     case ConsoleKey.LeftArrow:
                         game.Vessel.Delete();
                         if (game.Vessel.ColumnPosition > 1)
-                            game.Vessel.ColumnPosition--;
+                            game.Vessel.ColumnPosition -= 2;
                         game.Vessel.Display();
                         break;
                     // moves the vessel to the right
                     case ConsoleKey.RightArrow:
                         game.Vessel.Delete();
                         if (game.Vessel.ColumnPosition < 109)
-                            game.Vessel.ColumnPosition++;
+                            game.Vessel.ColumnPosition += 2;
                         game.Vessel.Display();
                         break;
                     // erase the other pressed key
@@ -343,6 +349,9 @@ namespace jeu
             // start the key interpreter
             MenuKey();
         }
+        /// <summary>
+        /// erase the actual cursor
+        /// </summary>
         static void EraseCursor()
         {
             switch (activePage)
@@ -376,6 +385,9 @@ namespace jeu
             }
 
         }
+        /// <summary>
+        /// display the actual cursor
+        /// </summary>
         static void DisplayCursor()
         {
             switch (activePage)
@@ -394,7 +406,7 @@ namespace jeu
                     model = CURSORLEFT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 0, 0], cursorPositionOptions[cursorPosition, 0 , 1] + i);
+                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 0, 0], cursorPositionOptions[cursorPosition, 0, 1] + i);
                         Console.Write(model[i]);
                     }
                     //write the right cursor on the option page
@@ -408,175 +420,90 @@ namespace jeu
             }
 
         }
+        /// <summary>
+        /// display the actual difficulty
+        /// </summary>
         static void DisplayDifficulty()
         {
-            switch (difficulty)
-            {
-                case 0:
-                    Console.SetCursorPosition(46, 15);
-                    Console.Write(@"   ___  __ _ ___ _   _ ");
-                    Console.SetCursorPosition(46, 16);
-                    Console.Write(@"  / _ \/ _` / __| | | |");
-                    Console.SetCursorPosition(46, 17);
-                    Console.Write(@" |  __/ (_| \__ \ |_| |");
-                    Console.SetCursorPosition(46, 18);
-                    Console.Write(@"  \___|\__,_|___/\__, |");
-                    Console.SetCursorPosition(46, 19);
-                    Console.Write(@"                  |___/ ");
-                    break;
 
-                case 1:
-                    Console.SetCursorPosition(41, 14);
-                    Console.Write(@"                                   _ ");
-                    Console.SetCursorPosition(41, 15);
-                    Console.Write(@"  _ __   ___  _ __ _ __ ___   __ _| |");
-                    Console.SetCursorPosition(41, 16);
-                    Console.Write(@" | '_ \ / _ \| '__| '_ ` _ \ / _` | |");
-                    Console.SetCursorPosition(41, 17);
-                    Console.Write(@" | | | | (_) | |  | | | | | | (_| | |");
-                    Console.SetCursorPosition(41, 18);
-                    Console.Write(@" |_| |_|\___/|_|  |_| |_| |_|\__,_|_|");
-                    break;
-                case 2:
-                    Console.SetCursorPosition(42, 14);
-                    Console.Write(@"     _ _  __  __ _            _ _   ");
-                    Console.SetCursorPosition(42, 15);
-                    Console.Write(@"  __| (_)/ _|/ _(_) ___ _   _| | |_ ");
-                    Console.SetCursorPosition(42, 16);
-                    Console.Write(@" / _` | | |_| |_| |/ __| | | | | __|");
-                    Console.SetCursorPosition(42, 17);
-                    Console.Write(@"| (_| | |  _|  _| | (__| |_| | | |_ ");
-                    Console.SetCursorPosition(42, 18);
-                    Console.Write(@" \__,_|_|_| |_| |_|\___|\__,_|_|\__|");
-                    break;
-                case 3:
-                    Console.SetCursorPosition(38, 14);
-                    Console.Write(@"                 _                     _ ");
-                    Console.SetCursorPosition(38, 15);
-                    Console.Write(@"  __ _  ___   __| |_ __ ___   ___   __| |");
-                    Console.SetCursorPosition(38, 16);
-                    Console.Write(@" / _` |/ _ \ / _` | '_ ` _ \ / _ \ / _` |");
-                    Console.SetCursorPosition(38, 17);
-                    Console.Write(@"| (_| | (_) | (_| | | | | | | (_) | (_| |");
-                    Console.SetCursorPosition(38, 18);
-                    Console.Write(@" \__, |\___/ \__,_|_| |_| |_|\___/ \__,_|");
-                    Console.SetCursorPosition(38, 19);
-                    Console.Write(@" |___/                                   ");
-                    break;
+            //write the cursor on the menu
+            model = difficultys[difficulty].Split('=');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(difficultysPositions[difficulty,0], difficultysPositions[difficulty, 1] + i);
+                Console.Write(model[i]);
             }
+
         }
+        /// <summary>
+        /// erase the actual difficulty
+        /// </summary>
         static void EraseDifficulty()
         {
-            switch (difficulty)
+            //write the cursor on the menu
+            model = difficultys[difficulty].Split('=');
+            for (int i = 0; i < model.Length; i++)
             {
-                case 0:
-                    Console.SetCursorPosition(46, 15);
-                    Console.Write(@"                       ");
-                    Console.SetCursorPosition(46, 16);
-                    Console.Write(@"                       ");
-                    Console.SetCursorPosition(46, 17);
-                    Console.Write(@"                       ");
-                    Console.SetCursorPosition(46, 18);
-                    Console.Write(@"                       ");
-                    Console.SetCursorPosition(46, 19);
-                    Console.Write(@"                       ");
-                    break;
-
-                case 1:
-                    Console.SetCursorPosition(41, 14);
-                    Console.Write(@"                                     ");
-                    Console.SetCursorPosition(41, 15);
-                    Console.Write(@"                                     ");
-                    Console.SetCursorPosition(41, 16);
-                    Console.Write(@"                                     ");
-                    Console.SetCursorPosition(41, 17);
-                    Console.Write(@"                                     ");
-                    Console.SetCursorPosition(41, 18);
-                    Console.Write(@"                                     ");
-                    break;
-                case 2:
-                    Console.SetCursorPosition(42, 14);
-                    Console.Write(@"                                    ");
-                    Console.SetCursorPosition(42, 15);
-                    Console.Write(@"                                    ");
-                    Console.SetCursorPosition(42, 16);
-                    Console.Write(@"                                    ");
-                    Console.SetCursorPosition(42, 17);
-                    Console.Write(@"                                    ");
-                    Console.SetCursorPosition(42, 18);
-                    Console.Write(@"                                    ");
-                    break;
-                case 3:
-                    Console.SetCursorPosition(38, 14);
-                    Console.Write(@"                                         ");
-                    Console.SetCursorPosition(38, 15);
-                    Console.Write(@"                                         ");
-                    Console.SetCursorPosition(38, 16);
-                    Console.Write(@"                                         ");
-                    Console.SetCursorPosition(38, 17);
-                    Console.Write(@"                                         ");
-                    Console.SetCursorPosition(38, 18);
-                    Console.Write(@"                                         ");
-                    Console.SetCursorPosition(38, 19);
-                    Console.Write(@"                                         ");
-                    break;
+                Console.SetCursorPosition(difficultysPositions[difficulty, 0], difficultysPositions[difficulty, 1] + i);
+                Console.Write("                                         ");
             }
         }
+        /// <summary>
+        /// display the actual music state
+        /// </summary>
         static void DisplayMusic()
         {
-            if (music == true)
+            if (music)
             {
-                Console.SetCursorPosition(51, 36);
-                Console.Write(@"   ___  _ __  ");
-                Console.SetCursorPosition(51, 37);
-                Console.Write(@"  / _ \| '_ \ ");
-                Console.SetCursorPosition(51, 38);
-                Console.Write(@" | (_) | | | |");
-                Console.SetCursorPosition(51, 39);
-                Console.Write(@"  \___/|_| |_|");
+                //write the cursor on the menu
+                model = musics[0].Split('=');
+                for (int i = 0; i < model.Length; i++)
+                {
+                    Console.SetCursorPosition(musicspositions[0, 0], musicspositions[0, 1] + i);
+                    Console.Write(model[i]);
+                }
             }
-            if (music == false)
+            else
             {
-                Console.SetCursorPosition(50, 35);
-                Console.Write(@"         __  __ ");
-                Console.SetCursorPosition(50, 36);
-                Console.Write(@"   ___  / _|/ _|");
-                Console.SetCursorPosition(50, 37);
-                Console.Write(@"  / _ \| |_| |_ ");
-                Console.SetCursorPosition(50, 38);
-                Console.Write(@" | (_) |  _|  _|");
-                Console.SetCursorPosition(50, 39);
-                Console.Write(@"  \___/|_| |_|  ");
+                //write the cursor on the menu
+                model = musics[1].Split('=');
+                for (int i = 0; i < model.Length; i++)
+                {
+                    Console.SetCursorPosition(musicspositions[1, 0], musicspositions[1, 1] + i);
+                    Console.Write(model[i]);
+                }
             }
 
         }
+        /// <summary>
+        /// erase the actual music state
+        /// </summary>
         static void EraseMusic()
         {
             if (music)
             {
-                Console.SetCursorPosition(51, 36);
-                Console.Write(@"              ");
-                Console.SetCursorPosition(51, 37);
-                Console.Write(@"              ");
-                Console.SetCursorPosition(51, 38);
-                Console.Write(@"              ");
-                Console.SetCursorPosition(51, 39);
-                Console.Write(@"              ");
+                //write the cursor on the menu
+                model = musics[1].Split('=');
+                for (int i = 0; i < model.Length; i++)
+                {
+                    Console.SetCursorPosition(musicspositions[1, 0], musicspositions[1, 1] + i);
+                    Console.Write("                    ");
+                }
             }
             else
             {
-                Console.SetCursorPosition(50, 35);
-                Console.Write(@"                ");
-                Console.SetCursorPosition(50, 36);
-                Console.Write(@"                ");
-                Console.SetCursorPosition(50, 37);
-                Console.Write(@"                ");
-                Console.SetCursorPosition(50, 38);
-                Console.Write(@"                ");
-                Console.SetCursorPosition(50, 39);
-                Console.Write(@"                ");
+                //write the cursor on the menu
+                model = musics[1].Split('=');
+                for (int i = 0; i < model.Length; i++)
+                {
+                    Console.SetCursorPosition(musicspositions[1, 0], musicspositions[1, 1] + i);
+                    Console.Write("                 ");
+                }
             }
         }
+        /// <summary>
+        /// display the options page
+        /// </summary>
         static void DisplayOptions()
         {
             Console.Clear();
@@ -627,6 +554,9 @@ namespace jeu
             DisplayCursor();
             OptionsKey();
         }
+        /// <summary>
+        /// display the about page
+        /// </summary>
         static void DisplayAbout()
         {
             Console.Clear();
@@ -644,6 +574,9 @@ namespace jeu
             activePage = "about";
             Aboutkey();
         }
+        /// <summary>
+        /// display the enter pseudo page
+        /// </summary>
         static void DisplayEnterPseudo()
         {
             Console.Clear();
@@ -652,6 +585,10 @@ namespace jeu
             string pseudo = Console.ReadLine();
             StartGame(pseudo);
         }
+        /// <summary>
+        /// start the player game
+        /// </summary>
+        /// <param name="pseudo"></param>
         static void StartGame(string pseudo)
         {
             Console.Clear();
@@ -665,12 +602,12 @@ namespace jeu
             Wall wall4 = new Wall(2, 77, 45, WALL);
             Wall wall5 = new Wall(2, 100, 45, WALL);
 
-            int x = 0;
+            int x = 2;
             int y = 3;
             string model = ALIEN1;
             for (int a = 1; a < 4; a++)
             {
-                x = 0;
+                x = 2;
                 switch (a)
                 {
                     case 1:
@@ -715,6 +652,12 @@ namespace jeu
 
             game.DisplayScore();
             game.DisplayLife();
+
+            Timer timer = new Timer(50); 
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            timer.Elapsed += game.AliensMovement;
+            timer.Start();
 
             activePage = "game";
             Gamekey();
