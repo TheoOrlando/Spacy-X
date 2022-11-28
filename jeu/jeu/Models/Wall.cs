@@ -17,12 +17,9 @@ namespace Models
             this.Model = model;
         }
 
-
-        public void WallBreak()
-        {
-
-        }
-
+        /// <summary>
+        /// Display the wall
+        /// </summary>
         public void Display()
         {
             string[] model = Model.Split('\n');

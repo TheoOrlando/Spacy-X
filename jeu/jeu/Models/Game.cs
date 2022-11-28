@@ -9,22 +9,22 @@ namespace Models
 {
     public class Game 
     {
-        private uint points;
+        private int score;
         private string pseudo;
         Vessel vessel;
         List<Alien> alienList = new List<Alien>();
         List<Wall> wallList = new List<Wall>();
 
-        public Game(uint points, string pseudo)
+        public Game(int points, string pseudo)
         {
-            this.points = points;
+            this.score = points;
             this.pseudo = pseudo;
         }
 
-        public uint Points 
+        public int Score 
         { 
-            get => points; 
-            set => points = value; 
+            get => score; 
+            set => score = value; 
         }
         public string Pseudo 
         { 
@@ -46,7 +46,22 @@ namespace Models
             get => wallList; 
             set => wallList = value; 
         }
-
+        /// <summary>
+        /// Display the actual player's score
+        /// </summary>
+        public void DisplayScore()
+        {
+            Console.SetCursorPosition(8, 1);
+            Console.Write("Score: " + score);
+        }
+        /// <summary>
+        /// Display the actual player's lifes
+        /// </summary>
+        public void DisplayLife()
+        {
+            Console.SetCursorPosition(90, 1);
+            Console.Write("Life: " + vessel.LifePoints);
+        }
 
     }
 }

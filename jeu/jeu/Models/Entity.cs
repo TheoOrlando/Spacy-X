@@ -20,9 +20,9 @@ namespace Models
             get => lifePoints;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     lifePoints = 0;
-                else if(value > maxLife)
+                else if (value > maxLife)
                     lifePoints = maxLife;
                 else
                     lifePoints = value;
@@ -53,6 +53,10 @@ namespace Models
             get => destructionModel;
             set => destructionModel = value;
         }
-        public int MaxLife { get => maxLife; set => maxLife = value; }
+        public int MaxLife
+        {
+            get => maxLife;
+            set => maxLife = value;
+        }
     }
 }

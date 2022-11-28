@@ -21,7 +21,10 @@ namespace Models
         }
 
         Timer timer;
-
+        /// <summary>
+        /// Move the laser in the enemy direction
+        /// </summary>
+        /// <param name="state"></param>
         public void Movement(object state)
         {
             if(RowPosition > 8)
