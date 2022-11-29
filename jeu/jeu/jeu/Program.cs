@@ -14,9 +14,9 @@ namespace jeu
         const string CURSORLEFT = "  ▄      \n▄██▄▄▄▄▄▄\n▀██▀▀▀▀▀▀\n  ▀      ";
         const string WALL = " ████████████ \n██████████████\n██████████████\n██████  ██████\n█████    █████";
         const string VESSEL = "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀";
-        const string ALIEN1 = "     ▄▄   \n   ▄████▄ \n  ██▄██▄██\n  ▄▀ ▀▀ ▀▄\n   ▀    ▀ ";
-        const string ALIEN2 = "   ▀▄   ▄▀  \n  ▄█▀███▀█▄ \n █▀███████▀█\n ▀ ▀▄▄ ▄▄▀ ▀";
-        const string ALIEN3 = " ▄▄▄████▄▄▄ \n███▀▀██▀▀███\n▀▀███▀▀███▀▀\n ▀█▄ ▀▀ ▄█▀ ";
+        const string ALIEN1 = "       ▄▄     \n     ▄████▄   \n    ██▄██▄██  \n    ▄▀ ▀▀ ▀▄  \n     ▀    ▀   ";
+        const string ALIEN2 = "    ▀▄   ▄▀   \n   ▄█▀███▀█▄  \n  █▀███████▀█ \n  ▀ ▀▄▄ ▄▄▀ ▀ ";
+        const string ALIEN3 = "  ▄▄▄████▄▄▄  \n ███▀▀██▀▀███ \n ▀▀███▀▀███▀▀ \n  ▀█▄ ▀▀ ▄█▀  ";
         const string ALIEN4 = "   ▄▄██████▄▄   \n ▄█▀██▀██▀██▀█▄ \n▀▀███▀▀██▀▀███▀▀\n   ▀        ▀   ";
 
         static int cursorPosition = 0;
@@ -68,6 +68,7 @@ namespace jeu
                 {
                     // shot a laser
                     case ConsoleKey.UpArrow:
+                        game.Vessel.Shot();
                         break;
                     // moves the vessel to the left
                     case ConsoleKey.LeftArrow:
@@ -598,12 +599,12 @@ namespace jeu
             Wall wall4 = new Wall(2, 77, 45, WALL);
             Wall wall5 = new Wall(2, 100, 45, WALL);
 
-            int x = 2;
+            int x = 1;
             int y = 3;
             string model = ALIEN1;
             for (int a = 1; a < 4; a++)
             {
-                x = 2;
+                x = 1;
                 switch (a)
                 {
                     case 1:
@@ -616,10 +617,10 @@ namespace jeu
                         model = ALIEN3;
                         break;
                 }
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 5; i++)
                 {
 
-                    Alien alien = new Alien(50, 1, x, y, model, "");
+                    Alien alien = new Alien(50, 1, x, y, model, "",true);
                     game.AlienList.Add(alien);
                     x += 14;
                 }

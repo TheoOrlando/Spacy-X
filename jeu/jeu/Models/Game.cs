@@ -9,9 +9,8 @@ using System.Timers;
 
 namespace Models
 {
-    public class Game 
+    public class Game
     {
-        private bool _right = true;
         private int score;
         private string pseudo;
         private Vessel vessel;
@@ -24,30 +23,30 @@ namespace Models
             this.pseudo = pseudo;
         }
 
-        public int Score 
-        { 
-            get => score; 
-            set => score = value; 
+        public int Score
+        {
+            get => score;
+            set => score = value;
         }
-        public string Pseudo 
-        { 
-            get => pseudo; 
-            set => pseudo = value; 
+        public string Pseudo
+        {
+            get => pseudo;
+            set => pseudo = value;
         }
-        public Vessel Vessel 
-        { 
-            get => vessel; 
-            set => vessel = value; 
+        public Vessel Vessel
+        {
+            get => vessel;
+            set => vessel = value;
         }
-        public List<Alien> AlienList 
-        { 
-            get => alienList; 
-            set => alienList = value; 
+        public List<Alien> AlienList
+        {
+            get => alienList;
+            set => alienList = value;
         }
-        public List<Wall> WallList 
-        { 
-            get => wallList; 
-            set => wallList = value; 
+        public List<Wall> WallList
+        {
+            get => wallList;
+            set => wallList = value;
         }
         /// <summary>
         /// Display the actual player's score
@@ -66,38 +65,51 @@ namespace Models
             Console.Write("Life: " + vessel.LifePoints);
         }
 
+        public void GameOver()
+        {
+            Environment.Exit(0);
+        }
         public void AliensMovement(Object source, ElapsedEventArgs e)
         {
+            bool changeDirection = false;
             foreach (Alien alien in AlienList)
             {
-                if(alien.ColumnPosition == 105)
-                {
-                    foreach (Alien alien2 in AlienList)
-                    {
-                        alien2.Move(-1, 1);
-                        _right = false;
-                    }
-                    //alien.Move(1, 0);
-                }
-                if (alien.ColumnPosition == 0)
-                {
-                    foreach (Alien alien2 in AlienList)
-                    {
-                        alien2.Move(1, 1);
-                        _right = true;
-                    }
-                    //alien.Move(-1, 0);
-                }
-                if (_right && alien.ColumnPosition !=105)
+                if (alien.Right)
                 {
                     alien.Move(1, 0);
                 }
-                else if(alien.ColumnPosition !=104)
+                else
                 {
                     alien.Move(-1, 0);
                 }
+                if (alien.ColumnPosition == 105 || alien.ColumnPosition == 0)
+                {
+                    foreach(Alien alien2 in AlienList)
+                    {
+                        alien2.Move(0, 1);
+                        changeDirection = true;
+                        if (alien2.RowPosition == 40)
+                        {
+                            this.GameOver();
+                        }
+                    }
+
+                }
+            }
+            if(changeDirection)
+            {
+                foreach (Alien alien in AlienList)
+                {
+                    if(alien.Right)
+                    {
+                        alien.Right = false;
+                    }
+                    else
+                    {
+                        alien.Right = true;
+                    }
+                }
             }
         }
-
     }
 }

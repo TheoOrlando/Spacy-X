@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Models
 {
@@ -48,7 +48,14 @@ namespace Models
         /// </summary>
         public void Shot()
         {
-
+            Laser laser = new Laser(ColumnPosition + 5, RowPosition -1, "|");
+            Console.SetCursorPosition(laser.ColumnPosition, laser.RowPosition);
+            Console.Write(laser.Model);
+            Timer timer3 = new Timer(50);
+            timer3.AutoReset = true;
+            timer3.Enabled = true;
+            timer3.Elapsed += laser.Movement;
+            timer3.Start();
         }
     }
 }

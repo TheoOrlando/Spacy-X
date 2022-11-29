@@ -10,9 +10,11 @@ namespace Models
     public class Alien : Entity
     {
         private int points;
+        private bool _right = true;
 
-        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model, string destructionModel)
+        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model, string destructionModel,bool right)
         {
+            this.Right = right;
             this.Points = points;
             this.LifePoints = lifepoints;
             this.ColumnPosition = columnPosition;
@@ -26,6 +28,7 @@ namespace Models
             get => points;
             set => points = value;
         }
+        public bool Right { get => _right; set => _right = value; }
 
         /// <summary>
         /// Display The Alien in multiple ligne
