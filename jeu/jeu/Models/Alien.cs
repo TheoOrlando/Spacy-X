@@ -9,10 +9,12 @@ namespace Models
 {
     public class Alien : Entity
     {
-        private uint points;
+        private int points;
+        private bool _right = true;
 
-        public Alien(uint points, sbyte lifepoints, byte columnPosition, byte rowposition, string model, string destructionModel)
+        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model, string destructionModel,bool right)
         {
+            this.Right = right;
             this.Points = points;
             this.LifePoints = lifepoints;
             this.ColumnPosition = columnPosition;
@@ -21,24 +23,40 @@ namespace Models
             this.DestructionModel = destructionModel;
         }
 
-        public uint Points
+        public int Points
         {
             get => points;
             set => points = value;
         }
+        public bool Right { get => _right; set => _right = value; }
 
-        public void AlienDestroy()
+        /// <summary>
+        /// Display The Alien in multiple ligne
+        /// </summary>
+        public void Display()
         {
-            this.Model = "";
-            this.ColumnPosition = 0;
-            this.RowPosition = 0;
+            string[] model = Model.Split('\n');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                Console.Write(model[i]);
+            }
         }
 
-        public void AlienShot()
+        public void Erase()
         {
-
+            string[] model = Model.Split('\n');
+            for (int i = 0; i < model.Length; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                Console.Write("               ");
+            }
         }
 
-
+        public void Move(int x, int y)
+        {
+            string[] model = Model.Split('\n');
+            Console.MoveBufferArea(ColumnPosition, RowPosition, model[0].Length, model.Length, ColumnPosition += x, RowPosition += y);
+        }
     }
 }
