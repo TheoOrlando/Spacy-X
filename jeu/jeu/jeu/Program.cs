@@ -5,11 +5,38 @@ using System.Text;
 using System.Threading.Tasks;
 using Models;
 using System.Timers;
+using System.Threading;
 
 namespace jeu
 {
     internal class Program
     {
+        public void boucle()
+        {
+            for(int i = 1; i < 31; i++)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKey key = Console.ReadKey(true).Key;
+                }
+                
+                //laser move
+                if (i % 2 == 0)
+                {
+                    //vessel move
+                }
+                if (i%15 == 0)
+                {
+                    //alien move
+                }
+                if(i == 30)
+                {
+                    i = 0;
+                    Thread.Sleep(900);
+                }
+            }
+        }
+
         const string CURSORRIGHT = "      ▄  \n▄▄▄▄▄▄██▄\n▀▀▀▀▀▀██▀\n      ▀  ";
         const string CURSORLEFT = "  ▄      \n▄██▄▄▄▄▄▄\n▀██▀▀▀▀▀▀\n  ▀      ";
         const string WALL = " ████████████ \n██████████████\n██████████████\n██████  ██████\n█████    █████";
@@ -650,7 +677,7 @@ namespace jeu
             game.DisplayScore();
             game.DisplayLife();
 
-            Timer timer = new Timer(50); 
+            System.Timers.Timer timer = new System.Timers.Timer(50); 
             timer.AutoReset = true;
             timer.Enabled = true;
             timer.Elapsed += game.AliensMovement;

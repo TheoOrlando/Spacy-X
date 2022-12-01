@@ -24,7 +24,10 @@ namespace Models
         /// <param name="state"></param>
         public void Movement(Object source, ElapsedEventArgs e)
         {
-                Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -=1);
+            if(RowPosition != 2)
+            {
+                Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
+            }
         }
     }
 }
