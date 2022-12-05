@@ -68,7 +68,7 @@ namespace Models
         {
             Environment.Exit(0);
         }
-        public void AliensMovement(Object source, ElapsedEventArgs e)
+        public void AliensMovement()
         {
             bool changeDirection = false;
             foreach (Alien alien in AlienList)

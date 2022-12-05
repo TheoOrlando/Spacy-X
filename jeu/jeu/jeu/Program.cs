@@ -11,28 +11,63 @@ namespace jeu
 {
     internal class Program
     {
-        public void boucle()
+        static void boucle()
         {
-            for(int i = 1; i < 31; i++)
+            ConsoleKey key;
+            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            for (int i = 1; i < 61; i++)
             {
-                if (Console.KeyAvailable)
+                key = ConsoleKey.A;
+                double start = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                /*if (Console.KeyAvailable)
                 {
-                    ConsoleKey key = Console.ReadKey(true).Key;
+                    key = Console.ReadKey(true).Key;
                 }
                 
                 //laser move
-                if (i % 2 == 0)
+                if(key == ConsoleKey.UpArrow && lastLaser - DateTime.Now.TimeOfDay.TotalMilliseconds >= 1000)
                 {
-                    //vessel move
+                    game.Vessel.Shot();
+                    lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
                 }
-                if (i%15 == 0)
+
+                //vessel move
+                if(key == ConsoleKey.LeftArrow)
+                {
+                    game.Vessel.Delete();
+                    if (game.Vessel.ColumnPosition > 1)
+                        game.Vessel.ColumnPosition -= 1;
+                    game.Vessel.Display();
+                }
+                if (key == ConsoleKey.RightArrow)
+                {
+                    game.Vessel.Delete();
+                    if (game.Vessel.ColumnPosition < 109)
+                        game.Vessel.ColumnPosition += 1;
+                    game.Vessel.Display();
+                }
+
+                
+                if (i%1 == 0)
                 {
                     //alien move
-                }
-                if(i == 30)
+                    game.AliensMovement();
+                }*/
+                if (i == 60)
                 {
                     i = 0;
-                    Thread.Sleep(900);
+                    Console.WriteLine("1");
+                }
+                double end = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                double executionTime = end - start;
+                if(executionTime > 17)
+                {
+                    double waitTime = 16.66 - executionTime;
+                }
+                waitTime = Math.Round(waitTime, 0);
+                if(waitTime > 0)
+                {
+                    Thread.Sleep(Convert.ToInt32(waitTime));
                 }
             }
         }
@@ -80,42 +115,9 @@ namespace jeu
             Console.Title = "Spacy X";
 
             //write the menu
-            DisplayMenu();
-        }
-        /// <summary>
-        /// Key interpreter for the game
-        /// </summary>
-        static void Gamekey()
-        {
-            while (activePage == "game")
-            {
-                // recovers the pressed key
-                ConsoleKey key = Console.ReadKey(true).Key;
-                switch (key)
-                {
-                    // shot a laser
-                    case ConsoleKey.UpArrow:
-                        game.Vessel.Shot();
-                        break;
-                    // moves the vessel to the left
-                    case ConsoleKey.LeftArrow:
-                        game.Vessel.Delete();
-                        if (game.Vessel.ColumnPosition > 1)
-                            game.Vessel.ColumnPosition -= 2;
-                        game.Vessel.Display();
-                        break;
-                    // moves the vessel to the right
-                    case ConsoleKey.RightArrow:
-                        game.Vessel.Delete();
-                        if (game.Vessel.ColumnPosition < 109)
-                            game.Vessel.ColumnPosition += 2;
-                        game.Vessel.Display();
-                        break;
-                    // erase the other pressed key
-                    default:
-                        break;
-                }
-            }
+            //DisplayMenu();
+            boucle();
+
         }
         /// <summary>
         /// Key interpreter for the main menu
@@ -677,14 +679,9 @@ namespace jeu
             game.DisplayScore();
             game.DisplayLife();
 
-            System.Timers.Timer timer = new System.Timers.Timer(50); 
-            timer.AutoReset = true;
-            timer.Enabled = true;
-            timer.Elapsed += game.AliensMovement;
-            timer.Start();
 
             activePage = "game";
-            Gamekey();
+            boucle();
         }
     }
 }
