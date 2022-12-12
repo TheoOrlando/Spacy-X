@@ -9,7 +9,15 @@ namespace Models
 {
     public class Vessel : Entity
     {
-        public Vessel(int lifepoints,int maxLife, int columnPosition, int rowposition, string model, string destructionModel)
+        private Game game;
+
+        public Game Game 
+        { 
+            get => game; 
+            set => game = value; 
+        }
+
+        public Vessel(int lifepoints,int maxLife, int columnPosition, int rowposition, string model, string destructionModel,Game game)
         {
             this.MaxLife = maxLife;
             this.LifePoints = lifepoints;
@@ -17,6 +25,7 @@ namespace Models
             this.RowPosition = rowposition;
             this.Model = model;
             this.DestructionModel = destructionModel;
+            this.Game = game;
         }
 
         /// <summary>
@@ -51,11 +60,7 @@ namespace Models
             Laser laser = new Laser(ColumnPosition + 5, RowPosition -1, "|");
             Console.SetCursorPosition(laser.ColumnPosition, laser.RowPosition);
             Console.Write(laser.Model);
-            Timer timer3 = new Timer(50);
-            timer3.AutoReset = true;
-            timer3.Enabled = true;
-            timer3.Elapsed += laser.Movement;
-            timer3.Start();
+            Game.Lasers.Add(laser);
         }
     }
 }

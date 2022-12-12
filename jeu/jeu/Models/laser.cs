@@ -22,11 +22,21 @@ namespace Models
         /// Move the laser in the enemy direction
         /// </summary>
         /// <param name="state"></param>
-        public void Movement(Object source, ElapsedEventArgs e)
+        public void Move()
         {
             if(RowPosition != 2)
             {
                 Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
+            }
+            else if(true)
+            {
+
+            }
+            else
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition);
+                Console.Write(" ");
+                this.Model = null;
             }
         }
     }

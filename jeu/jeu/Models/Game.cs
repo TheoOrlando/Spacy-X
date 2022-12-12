@@ -15,6 +15,7 @@ namespace Models
         private Vessel vessel;
         private List<Alien> alienList = new List<Alien>();
         private List<Wall> wallList = new List<Wall>();
+        private List<Laser> lasers = new List<Laser>();
 
         public Game(int points, string pseudo)
         {
@@ -47,6 +48,12 @@ namespace Models
             get => wallList;
             set => wallList = value;
         }
+        public List<Laser> Lasers 
+        { 
+            get => lasers; 
+            set => lasers = value; 
+        }
+
         /// <summary>
         /// Display the actual player's score
         /// </summary>

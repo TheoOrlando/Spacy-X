@@ -15,54 +15,65 @@ namespace jeu
         {
             ConsoleKey key;
             double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            double waitTime = 0;
             for (int i = 1; i < 61; i++)
             {
                 key = ConsoleKey.A;
                 double start = DateTime.Now.TimeOfDay.TotalMilliseconds;
-                /*if (Console.KeyAvailable)
+                if (Console.KeyAvailable)
                 {
                     key = Console.ReadKey(true).Key;
                 }
                 
-                //laser move
-                if(key == ConsoleKey.UpArrow && lastLaser - DateTime.Now.TimeOfDay.TotalMilliseconds >= 1000)
+                if(i%1 == 0)
                 {
-                    game.Vessel.Shot();
-                    lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
-                }
+                    //laser move
+                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 500)
+                    {
+                        game.Vessel.Shot();
+                        lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                    }
 
-                //vessel move
-                if(key == ConsoleKey.LeftArrow)
-                {
-                    game.Vessel.Delete();
-                    if (game.Vessel.ColumnPosition > 1)
-                        game.Vessel.ColumnPosition -= 1;
-                    game.Vessel.Display();
-                }
-                if (key == ConsoleKey.RightArrow)
-                {
-                    game.Vessel.Delete();
-                    if (game.Vessel.ColumnPosition < 109)
-                        game.Vessel.ColumnPosition += 1;
-                    game.Vessel.Display();
-                }
+                    if (key == ConsoleKey.LeftArrow)
+                    {
+                        game.Vessel.Delete();
+                        if (game.Vessel.ColumnPosition > 1)
+                            game.Vessel.ColumnPosition -= 2;
+                        game.Vessel.Display();
+                    }
+                    if (key == ConsoleKey.RightArrow)
+                    {
+                        game.Vessel.Delete();
+                        if (game.Vessel.ColumnPosition < 109)
+                            game.Vessel.ColumnPosition += 2;
+                        game.Vessel.Display();
+                    }
 
-                
-                if (i%1 == 0)
+                    foreach(Laser laser in game.Lasers.ToArray())
+                    {
+                        if (laser.Model == null)
+                        {
+                            game.Lasers.Remove(laser);
+                        }
+                        laser.Move();
+                    }
+                }
+                if (i%2 == 0)
                 {
                     //alien move
                     game.AliensMovement();
-                }*/
+                }
                 if (i == 60)
                 {
                     i = 0;
-                    Console.WriteLine("1");
                 }
+
+                //calculating the time to wait for a frame
                 double end = DateTime.Now.TimeOfDay.TotalMilliseconds;
                 double executionTime = end - start;
-                if(executionTime > 17)
+                if(executionTime < 17)
                 {
-                    double waitTime = 16.66 - executionTime;
+                    waitTime = 8.33 - executionTime;
                 }
                 waitTime = Math.Round(waitTime, 0);
                 if(waitTime > 0)
@@ -115,9 +126,7 @@ namespace jeu
             Console.Title = "Spacy X";
 
             //write the menu
-            //DisplayMenu();
-            boucle();
-
+            DisplayMenu();
         }
         /// <summary>
         /// Key interpreter for the main menu
@@ -620,7 +629,7 @@ namespace jeu
             Console.Clear();
             game = new Game(0, pseudo);
 
-            Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, "");
+            Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, "", game);
 
             Wall wall1 = new Wall(2, 8, 45, WALL);
             Wall wall2 = new Wall(2, 31, 45, WALL);
