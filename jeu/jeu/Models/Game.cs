@@ -10,16 +10,16 @@ namespace Models
 {
     public class Game
     {
-        private int score;
+        private int score = 0;
         private string pseudo;
         private Vessel vessel;
         private List<Alien> alienList = new List<Alien>();
         private List<Wall> wallList = new List<Wall>();
         private List<Laser> lasers = new List<Laser>();
+        private int[,] hitBoxes= new int[100,6];
 
-        public Game(int points, string pseudo)
+        public Game(string pseudo)
         {
-            this.score = points;
             this.pseudo = pseudo;
         }
 
@@ -53,6 +53,7 @@ namespace Models
             get => lasers; 
             set => lasers = value; 
         }
+        public int[,] HitBoxes { get => hitBoxes; set => hitBoxes = value; }
 
         /// <summary>
         /// Display the actual player's score

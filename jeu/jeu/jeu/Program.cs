@@ -49,7 +49,7 @@ namespace jeu
                         game.Vessel.Display();
                     }
 
-                    foreach(Laser laser in game.Lasers.ToArray())
+                    foreach (Laser laser in game.Lasers.ToArray())
                     {
                         if (laser.Model == null)
                         {
@@ -627,9 +627,9 @@ namespace jeu
         static void StartGame(string pseudo)
         {
             Console.Clear();
-            game = new Game(0, pseudo);
+            game = new Game( pseudo);
 
-            Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, "", game);
+            Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, game);
 
             Wall wall1 = new Wall(2, 8, 45, WALL);
             Wall wall2 = new Wall(2, 31, 45, WALL);
@@ -657,8 +657,7 @@ namespace jeu
                 }
                 for (int i = 0; i < 5; i++)
                 {
-
-                    Alien alien = new Alien(50, 1, x, y, model, "",true);
+                    Alien alien = new Alien(50, 1, x, y, model,true);
                     game.AlienList.Add(alien);
                     x += 14;
                 }

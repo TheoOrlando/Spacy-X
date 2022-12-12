@@ -10,12 +10,22 @@ namespace Models
 {
     public class Laser : Entity
     {
+        private Game game;
 
-        public Laser( int columnPosition, int rowposition, string model)
+        public Game Game
         {
-            this.ColumnPosition = columnPosition;
-            this.RowPosition = rowposition;
-            this.Model = model;
+            get => game;
+            set => game = value;
+        }
+        public Laser(int columnPosition, int rowposition, string model, Game game)
+        {
+            ColumnPosition = columnPosition;
+            RowPosition = rowposition;
+            Model = model;
+            Game = game;
+            string[] modeln = model.Split('\n');
+            Width = modeln[0].Length;
+            Height = modeln.Count();
         }
 
         /// <summary>
@@ -24,13 +34,18 @@ namespace Models
         /// <param name="state"></param>
         public void Move()
         {
+            
+            foreach(Wall wall in game.WallList)
+            {
+                if(ColumnPosition < wall.ColumnPosition + wall.Width && )
+                {
+
+                }
+            }
+
             if(RowPosition != 2)
             {
                 Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
-            }
-            else if(true)
-            {
-
             }
             else
             {

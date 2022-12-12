@@ -12,15 +12,17 @@ namespace Models
         private int points;
         private bool _right = true;
 
-        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model, string destructionModel,bool right)
+        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model,bool right)
         {
-            this.Right = right;
-            this.Points = points;
-            this.LifePoints = lifepoints;
-            this.ColumnPosition = columnPosition;
-            this.RowPosition = rowposition;
-            this.Model = model;
-            this.DestructionModel = destructionModel;
+            Right = right;
+            Points = points;
+            LifePoints = lifepoints;
+            ColumnPosition = columnPosition;
+            RowPosition = rowposition;
+            Model = model;
+            string[] modeln = model.Split('\n');
+            Width = modeln[0].Length;
+            Height = modeln.Count();
         }
 
         public int Points

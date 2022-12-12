@@ -15,6 +15,9 @@ namespace Models
             this.ColumnPosition = columnPosition;
             this.RowPosition = rowposition;
             this.Model = model;
+            string[] modeln = model.Split('\n');
+            Width = modeln[0].Length;
+            Height = modeln.Count();
         }
 
         /// <summary>

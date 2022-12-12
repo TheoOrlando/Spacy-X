@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Entity
+    abstract public class Entity
     {
         private int lifePoints;
         private int maxLife;
         private int columnPosition;
         private int rowPosition;
+        private int width;
+        private int height;
         private string model = "";
-        private string destructionModel = "";
 
         public int LifePoints
         {
@@ -48,15 +49,12 @@ namespace Models
             set => model = value;
         }
 
-        public string DestructionModel
-        {
-            get => destructionModel;
-            set => destructionModel = value;
-        }
         public int MaxLife
         {
             get => maxLife;
             set => maxLife = value;
         }
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
     }
 }

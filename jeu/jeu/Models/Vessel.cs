@@ -17,15 +17,17 @@ namespace Models
             set => game = value; 
         }
 
-        public Vessel(int lifepoints,int maxLife, int columnPosition, int rowposition, string model, string destructionModel,Game game)
+        public Vessel(int lifepoints,int maxLife, int columnPosition, int rowposition, string model, Game game)
         {
             this.MaxLife = maxLife;
             this.LifePoints = lifepoints;
             this.ColumnPosition = columnPosition;
             this.RowPosition = rowposition;
             this.Model = model;
-            this.DestructionModel = destructionModel;
             this.Game = game;
+            string[] modeln = model.Split('\n');
+            Width = modeln[0].Length;
+            Height = modeln.Count();
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Models
         /// </summary>
         public void Shot()
         {
-            Laser laser = new Laser(ColumnPosition + 5, RowPosition -1, "|");
+            Laser laser = new Laser(ColumnPosition + 5, RowPosition -1, "|",game);
             Console.SetCursorPosition(laser.ColumnPosition, laser.RowPosition);
             Console.Write(laser.Model);
             Game.Lasers.Add(laser);
