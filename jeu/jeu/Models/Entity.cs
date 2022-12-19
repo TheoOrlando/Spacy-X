@@ -59,16 +59,16 @@ namespace Models
         public virtual void Display()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Height; i++)
             {
                 Console.SetCursorPosition(ColumnPosition, RowPosition + i);
-                Console.Write(model[i]);
+                Console.Write(Model[i]);
             }
         }
 
         public virtual void Erase()
         {
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Height; i++)
             {
                 Console.SetCursorPosition(ColumnPosition, RowPosition + i);
                 for(int j = 0; j < Width; j++)

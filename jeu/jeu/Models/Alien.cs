@@ -18,9 +18,9 @@ namespace Models
         private readonly string[] ALIEN3 = new string[] { "  ▄▄▄████▄▄▄  ", " ███▀▀██▀▀███ ", " ▀▀███▀▀███▀▀ ", "  ▀█▄ ▀▀ ▄█▀  " };
         private readonly string[] ALIEN4 = new string[] { "   ▄▄██████▄▄   ", " ▄█▀██▀██▀██▀█▄ ", "▀▀███▀▀██▀▀███▀▀", "   ▀        ▀   " };
 
-        public Alien(int lifePoints, int maxLife, int columnPosition, int rowPosition, Game game, int points, bool right, int alienType) : base(lifePoints, maxLife, columnPosition, rowPosition, game)
+        public Alien( int maxLife, int columnPosition, int rowPosition, Game game, bool right, int alienType) : base( maxLife, columnPosition, rowPosition, game)
         {
-            LifePoints = lifePoints;
+            LifePoints = maxLife;
             MaxLife = maxLife;
             Game = game;
             Right = right;
@@ -31,15 +31,19 @@ namespace Models
             {
                 case 1:
                     Model = ALIEN1;
+                    Points = 30;
                     break;
                 case 2:
                     Model = ALIEN2;
+                    Points = 20;
                     break;
                 case 3:
                     Model = ALIEN3;
+                    Points = 10;
                     break;
                 case 4:
                     Model = ALIEN4;
+                    Points = 50;
                     break;
             }
             Width = Model[0].Length;
@@ -64,13 +68,14 @@ namespace Models
                     Console.Write(" ");
                 }
             }
+            Game.AlienList.Remove(this);
             Game.Score += points;
             Game.DisplayScore();
         }
 
         public void Move(int x, int y)
         {
-            Console.MoveBufferArea(ColumnPosition, RowPosition, Width, Width, ColumnPosition += x, RowPosition += y);
+            Console.MoveBufferArea(ColumnPosition, RowPosition, Width, Height, ColumnPosition += x, RowPosition += y);
         }
     }
 }

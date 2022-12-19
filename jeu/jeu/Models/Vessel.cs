@@ -10,14 +10,14 @@ namespace Models
     public class Vessel : EntityWithLife
     {
         private readonly string[] MODEL = new string[] { "     █      ", " ▄███████▄ ", "███████████", "▀▀▀▀▀▀▀▀▀▀▀" };
-        public Vessel(int lifePoints,int maxLife, int columnPosition, int rowPosition, Game game) : base(lifePoints, maxLife, columnPosition, rowPosition, game)
+        public Vessel(int maxLife, int columnPosition, int rowPosition, Game game) : base( maxLife, columnPosition, rowPosition, game)
         {
             MaxLife = maxLife;
-            LifePoints = lifePoints;
+            LifePoints = maxLife;
             ColumnPosition = columnPosition;
             RowPosition = rowPosition;
-            Model = MODEL;
             Game = game;
+            Model = MODEL;
             Width = Model[0].Length;
             Height = Model.Count();
         }
@@ -30,7 +30,7 @@ namespace Models
             Console.ForegroundColor = ConsoleColor.White;
             Laser laser = new Laser(ColumnPosition + 5, RowPosition -1,Game);
             Console.SetCursorPosition(laser.ColumnPosition, laser.RowPosition);
-            Console.Write(laser.Model);
+            Console.Write(laser.Model[0]);
             Game.Lasers.Add(laser);
         }
     }

@@ -11,9 +11,8 @@ namespace Models
         private int lifePoints;
         private int maxLife;
 
-        protected EntityWithLife(int lifePoints, int maxLife, int columnPosition, int rowPosition, Game game) : base( columnPosition, rowPosition, game)
+        protected EntityWithLife( int maxLife, int columnPosition, int rowPosition, Game game) : base( columnPosition, rowPosition, game)
         {
-            LifePoints = lifePoints;
             MaxLife = maxLife;
             ColumnPosition = columnPosition;
             RowPosition = rowPosition;

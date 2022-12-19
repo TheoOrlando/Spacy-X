@@ -9,16 +9,16 @@ namespace Models
     public class Wall : EntityWithLife
     {
         private readonly string[] MODEL = new string[] { " ████████████ ", "██████████████", "██████████████", "██████  ██████", "█████    █████" };
-        public Wall(int lifePoints, int columnPosition, int rowPosition, int maxLife, Game game) : base(lifePoints, maxLife, columnPosition, rowPosition, game)
+        public Wall(int maxLife, int columnPosition, int rowPosition,  Game game) : base( maxLife, columnPosition, rowPosition, game)
         {
-            MaxLife = 4;
-            LifePoints = lifePoints;
+            MaxLife = maxLife;
+            LifePoints = maxLife;
             ColumnPosition = columnPosition;
             RowPosition = rowPosition;
+            Game = game;
             Model = MODEL;
             Width = MODEL[0].Length;
             Height = MODEL.Count();
-            Game = game;
         }
 
         /// <summary>
@@ -45,12 +45,25 @@ namespace Models
             }
             if (LifePoints > 0)
             {
-                for (int i = 0; i < Width; i++)
+                for (int i = 0; i < Height; i++)
                 {
                     Console.SetCursorPosition(ColumnPosition, RowPosition + i);
                     Console.Write(Model[i]);
                 }
             }
+        }
+
+        public override void Erase()
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                for (int j = 0; j < Width; j++)
+                {
+                    Console.Write(" ");
+                }
+            }
+            Game.WallList.Remove(this);
         }
     }
 }

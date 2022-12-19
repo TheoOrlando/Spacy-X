@@ -14,7 +14,7 @@ namespace jeu
         static void boucle()
         {
             ConsoleKey key;
-            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds-250;
+            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds - 500;
             double waitTime = 0;
             for (int i = 1; i < 61; i++)
             {
@@ -24,11 +24,11 @@ namespace jeu
                 {
                     key = Console.ReadKey(true).Key;
                 }
-                
-                if(i%1 == 0)
+
+                if (i % 1 == 0)
                 {
                     //laser move
-                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 250)
+                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 500)
                     {
                         game.Vessel.Shot();
                         lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
@@ -36,29 +36,27 @@ namespace jeu
 
                     if (key == ConsoleKey.LeftArrow)
                     {
-                        game.Vessel.Delete();
+                        game.Vessel.Erase();
                         if (game.Vessel.ColumnPosition > 1)
                             game.Vessel.ColumnPosition -= 2;
                         game.Vessel.Display();
                     }
                     if (key == ConsoleKey.RightArrow)
                     {
-                        game.Vessel.Delete();
+                        game.Vessel.Erase();
                         if (game.Vessel.ColumnPosition < 109)
                             game.Vessel.ColumnPosition += 2;
                         game.Vessel.Display();
                     }
-
-
                 }
-                if(i%2 == 0)
+                if (i % 2 == 0)
                 {
                     foreach (Laser laser in game.Lasers.ToArray())
                     {
                         laser.Move();
                     }
                 }
-                if (i%3 == 0)
+                if (i % 3 == 0)
                 {
                     //alien move
                     game.AliensMovement();
@@ -66,17 +64,22 @@ namespace jeu
                 if (i == 60)
                 {
                     i = 0;
+                    if (game.AlienList.Count == 0)
+                    {
+                        DisplaySucessWave();
+
+                    }
                 }
 
                 //calculating the time to wait for a frame
                 double end = DateTime.Now.TimeOfDay.TotalMilliseconds;
                 double executionTime = end - start;
-                if(executionTime < 17)
+                if (executionTime < 17)
                 {
                     waitTime = 8.33 - executionTime;
                 }
                 waitTime = Math.Round(waitTime, 0);
-                if(waitTime > 0)
+                if (waitTime > 0)
                 {
                     Thread.Sleep(Convert.ToInt32(waitTime));
                 }
@@ -95,10 +98,14 @@ namespace jeu
                                                      @"                 _                     _=  __ _  ___   __| |_ __ ___   ___   __| |= / _` |/ _ \ / _` | '_ ` _ \ / _ \ / _` |=| (_| | (_) | (_| | | | | | | (_) | (_| |= \__, |\___/ \__,_|_| |_| |_|\___/ \__,_|= |___/"};
         static string[] musics = new string[] { @"   ___  _ __  =  / _ \| '_ \ = | (_) | | | |=  \___/|_| |_|",
                                                 @"         __  __ =   ___  / _|/ _|=  / _ \| |_| |_ = | (_) |  _|  _|=  \___/|_| |_|  =" };
+        static string[,] beforeNextWave = new string[,] { {"                _ ", "   __ _  ___   | |", "  / _` |/ _ \\  | |", " | (_| | (_) | |_|", "  \\__, |\\___/  (_)", "  |___/           "},
+            {"  _ "," / |", " | |", " | |", " |_|", ""},
+            { "  ____  ", " |___ \\ ", "   __) |", "  / __/ ", " |_____|", ""},
+            { "  _____ ", " |___ / ", "   |_ \\ ", "  ___) |", " |____/ ", "" }};
         static int[,] cursorPositionsMenu = new int[,] { { 37, 18 }, { 30, 27 }, { 32, 36 }, { 32, 44 }, { 37, 53 } };
         static int[,,] cursorPositionOptions = new int[,,] { { { 23, 15 }, { 88, 15 } }, { { 33, 36 }, { 75, 36 } } };
         static int[,] difficultysPositions = new int[,] { { 46, 15 }, { 41, 14 }, { 42, 14 }, { 38, 14 } };
-        static int[,] musicspositions = new int[,] { { 51, 36 }, { 50, 35 }};
+        static int[,] musicspositions = new int[,] { { 51, 36 }, { 50, 35 } };
         static string activePage;
         static int nbOptions;
         static int difficulty = 1;
@@ -459,7 +466,7 @@ namespace jeu
             model = difficultys[difficulty].Split('=');
             for (int i = 0; i < model.Length; i++)
             {
-                Console.SetCursorPosition(difficultysPositions[difficulty,0], difficultysPositions[difficulty, 1] + i);
+                Console.SetCursorPosition(difficultysPositions[difficulty, 0], difficultysPositions[difficulty, 1] + i);
                 Console.Write(model[i]);
             }
 
@@ -621,41 +628,31 @@ namespace jeu
         static void StartGame(string pseudo)
         {
             Console.Clear();
-            game = new Game( pseudo);
+            if (game == null)
+            {
+                game = new Game(pseudo);
+            }
 
-            Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, game);
+            Vessel vessel = new Vessel(3, 53, 55, game);
 
-            Wall wall1 = new Wall(4, 8, 45, WALL, game);
-            Wall wall2 = new Wall(4, 31, 45, WALL, game);
-            Wall wall3 = new Wall(4, 54, 45, WALL, game);
-            Wall wall4 = new Wall(4, 77, 45, WALL, game);
-            Wall wall5 = new Wall(4, 100, 45, WALL, game);
+            Wall wall1 = new Wall(4, 8, 45, game);
+            Wall wall2 = new Wall(4, 31, 45, game);
+            Wall wall3 = new Wall(4, 54, 45, game);
+            Wall wall4 = new Wall(4, 77, 45, game);
+            Wall wall5 = new Wall(4, 100, 45, game);
 
             int x = 1;
             int y = 3;
-            string model = ALIEN1;
-            for (int a = 1; a < 4; a++)
+            for (int a = 1; a < 2; a++)
             {
-                x = 1;
-                switch (a)
+                for (int i = 0; i < 1; i++)
                 {
-                    case 1:
-                        model = ALIEN1;
-                        break;
-                    case 2:
-                        model = ALIEN2;
-                        break;
-                    case 3:
-                        model = ALIEN3;
-                        break;
-                }
-                for (int i = 0; i < 5; i++)
-                {
-                    Alien alien = new Alien(50, 1, x, y, model,true, game);
+                    Alien alien = new Alien(1, x, y, game, true, a);
                     game.AlienList.Add(alien);
                     x += 14;
                 }
                 y += 6;
+                x = 1;
             }
 
             game.WallList.Add(wall1);
@@ -684,6 +681,41 @@ namespace jeu
 
             activePage = "game";
             boucle();
+        }
+
+        static void DisplaySucessWave()
+        {
+            Console.SetCursorPosition(0, 17);
+            Console.Write(@"
+                        _   _           _                                _        
+                       | \ | | _____  _| |_  __      ____ ___   _____   (_)_ __   
+                       |  \| |/ _ \ \/ / __| \ \ /\ / / _` \ \ / / _ \  | | '_ \  
+                       | |\  |  __/>  <| |_   \ V  V / (_| |\ V /  __/  | | | | | 
+                       |_| \_|\___/_/\_\\__|   \_/\_/ \__,_| \_/ \___|  |_|_| |_| ");
+            for (int j = 3; j > -1; j--)
+            {
+                DisplayBeforeNextWave(j);
+                Thread.Sleep(1000);
+                EraseBeforeNextWave(j);
+            }
+            StartGame("tot");
+        }
+
+        static void DisplayBeforeNextWave(int index)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                Console.SetCursorPosition(83, 18 + i);
+                Console.Write(beforeNextWave[index,i]);
+            }
+        }
+        static void EraseBeforeNextWave(int index)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                Console.SetCursorPosition(83, 18 + i);
+                Console.Write("                      ");
+            }
         }
     }
 }
