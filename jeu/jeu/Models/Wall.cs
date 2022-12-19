@@ -6,32 +6,51 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Wall : Entity
+    public class Wall : EntityWithLife
     {
-
-        public Wall(sbyte lifepoints, byte columnPosition, byte rowposition, string model)
+        private readonly string[] MODEL = new string[] { " ████████████ ", "██████████████", "██████████████", "██████  ██████", "█████    █████" };
+        public Wall(int lifePoints, int columnPosition, int rowPosition, int maxLife, Game game) : base(lifePoints, maxLife, columnPosition, rowPosition, game)
         {
-            this.LifePoints = lifepoints;
-            this.ColumnPosition = columnPosition;
-            this.RowPosition = rowposition;
-            this.Model = model;
-            string[] modeln = model.Split('\n');
-            Width = modeln[0].Length;
-            Height = modeln.Count();
+            MaxLife = 4;
+            LifePoints = lifePoints;
+            ColumnPosition = columnPosition;
+            RowPosition = rowPosition;
+            Model = MODEL;
+            Width = MODEL[0].Length;
+            Height = MODEL.Count();
+            Game = game;
         }
 
         /// <summary>
         /// Display the wall
         /// </summary>
-        public void Display()
+        public override void Display()
         {
-            string[] model = Model.Split('\n');
-            for (int i = 0; i < model.Length; i++)
+            switch (LifePoints)
             {
-                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
-                Console.Write(model[i]);
+                case 3:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case 2:
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    break;
+                case 1:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case 0:
+                    this.Erase();
+                    break;
+                default:
+                    break;
+            }
+            if (LifePoints > 0)
+            {
+                for (int i = 0; i < Width; i++)
+                {
+                    Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                    Console.Write(Model[i]);
+                }
             }
         }
-
     }
 }

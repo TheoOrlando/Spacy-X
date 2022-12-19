@@ -8,27 +8,21 @@ namespace Models
 {
     abstract public class Entity
     {
-        private int lifePoints;
-        private int maxLife;
         private int columnPosition;
         private int rowPosition;
         private int width;
         private int height;
-        private string model = "";
+        private string[] model = new string[10];
+        private Game game;
 
-        public int LifePoints
+        protected Entity( int columnPosition, int rowPosition, Game game)
         {
-            get => lifePoints;
-            set
-            {
-                if (value < 0)
-                    lifePoints = 0;
-                else if (value > maxLife)
-                    lifePoints = maxLife;
-                else
-                    lifePoints = value;
-            }
+            ColumnPosition = columnPosition;
+            RowPosition = rowPosition;
+            Game = game;
         }
+
+
 
         public int ColumnPosition
         {
@@ -36,25 +30,52 @@ namespace Models
             set => columnPosition = value;
 
         }
-
         public int RowPosition
         {
             get => rowPosition;
             set => rowPosition = value;
         }
-
-        public string Model
-        {
-            get => model;
-            set => model = value;
+        public int Width 
+        { 
+            get => width; 
+            set => width = value; 
+        }
+        public int Height 
+        { 
+            get => height; 
+            set => height = value; 
+        }
+        public Game Game 
+        { 
+            get => game; 
+            set => game = value; 
+        }
+        public string[] Model 
+        { 
+            get => model; 
+            set => model = value; 
         }
 
-        public int MaxLife
+        public virtual void Display()
         {
-            get => maxLife;
-            set => maxLife = value;
+            Console.ForegroundColor = ConsoleColor.White;
+            for (int i = 0; i < Width; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                Console.Write(model[i]);
+            }
         }
-        public int Width { get => width; set => width = value; }
-        public int Height { get => height; set => height = value; }
+
+        public virtual void Erase()
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
+                for(int j = 0; j < Width; j++)
+                {
+                    Console.Write(" ");
+                }
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace jeu
         static void boucle()
         {
             ConsoleKey key;
-            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
+            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds-250;
             double waitTime = 0;
             for (int i = 1; i < 61; i++)
             {
@@ -28,7 +28,7 @@ namespace jeu
                 if(i%1 == 0)
                 {
                     //laser move
-                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 500)
+                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 250)
                     {
                         game.Vessel.Shot();
                         lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
@@ -49,16 +49,16 @@ namespace jeu
                         game.Vessel.Display();
                     }
 
+
+                }
+                if(i%2 == 0)
+                {
                     foreach (Laser laser in game.Lasers.ToArray())
                     {
-                        if (laser.Model == null)
-                        {
-                            game.Lasers.Remove(laser);
-                        }
                         laser.Move();
                     }
                 }
-                if (i%2 == 0)
+                if (i%3 == 0)
                 {
                     //alien move
                     game.AliensMovement();
@@ -85,12 +85,6 @@ namespace jeu
 
         const string CURSORRIGHT = "      ▄  \n▄▄▄▄▄▄██▄\n▀▀▀▀▀▀██▀\n      ▀  ";
         const string CURSORLEFT = "  ▄      \n▄██▄▄▄▄▄▄\n▀██▀▀▀▀▀▀\n  ▀      ";
-        const string WALL = " ████████████ \n██████████████\n██████████████\n██████  ██████\n█████    █████";
-        const string VESSEL = "     █      \n ▄███████▄ \n███████████\n▀▀▀▀▀▀▀▀▀▀▀";
-        const string ALIEN1 = "       ▄▄     \n     ▄████▄   \n    ██▄██▄██  \n    ▄▀ ▀▀ ▀▄  \n     ▀    ▀   ";
-        const string ALIEN2 = "    ▀▄   ▄▀   \n   ▄█▀███▀█▄  \n  █▀███████▀█ \n  ▀ ▀▄▄ ▄▄▀ ▀ ";
-        const string ALIEN3 = "  ▄▄▄████▄▄▄  \n ███▀▀██▀▀███ \n ▀▀███▀▀███▀▀ \n  ▀█▄ ▀▀ ▄█▀  ";
-        const string ALIEN4 = "   ▄▄██████▄▄   \n ▄█▀██▀██▀██▀█▄ \n▀▀███▀▀██▀▀███▀▀\n   ▀        ▀   ";
 
         static int cursorPosition = 0;
 
@@ -631,11 +625,11 @@ namespace jeu
 
             Vessel vessel = new Vessel(3, 3, 53, 55, VESSEL, game);
 
-            Wall wall1 = new Wall(2, 8, 45, WALL);
-            Wall wall2 = new Wall(2, 31, 45, WALL);
-            Wall wall3 = new Wall(2, 54, 45, WALL);
-            Wall wall4 = new Wall(2, 77, 45, WALL);
-            Wall wall5 = new Wall(2, 100, 45, WALL);
+            Wall wall1 = new Wall(4, 8, 45, WALL, game);
+            Wall wall2 = new Wall(4, 31, 45, WALL, game);
+            Wall wall3 = new Wall(4, 54, 45, WALL, game);
+            Wall wall4 = new Wall(4, 77, 45, WALL, game);
+            Wall wall5 = new Wall(4, 100, 45, WALL, game);
 
             int x = 1;
             int y = 3;
@@ -657,7 +651,7 @@ namespace jeu
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    Alien alien = new Alien(50, 1, x, y, model,true);
+                    Alien alien = new Alien(50, 1, x, y, model,true, game);
                     game.AlienList.Add(alien);
                     x += 14;
                 }

@@ -7,22 +7,43 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Alien : Entity
+    public class Alien : EntityWithLife
     {
         private int points;
         private bool _right = true;
+        private int _alienType;
 
-        public Alien(int points, int lifepoints, int columnPosition, int rowposition, string model,bool right)
+        private readonly string[] ALIEN1 = new string[] { "       ▄▄     ", "     ▄████▄   ", "    ██▄██▄██  ", "    ▄▀ ▀▀ ▀▄  ", "     ▀    ▀   " };
+        private readonly string[] ALIEN2 = new string[] { "    ▀▄   ▄▀   ", "   ▄█▀███▀█▄  ", "  █▀███████▀█ ", "  ▀ ▀▄▄ ▄▄▀ ▀ " };
+        private readonly string[] ALIEN3 = new string[] { "  ▄▄▄████▄▄▄  ", " ███▀▀██▀▀███ ", " ▀▀███▀▀███▀▀ ", "  ▀█▄ ▀▀ ▄█▀  " };
+        private readonly string[] ALIEN4 = new string[] { "   ▄▄██████▄▄   ", " ▄█▀██▀██▀██▀█▄ ", "▀▀███▀▀██▀▀███▀▀", "   ▀        ▀   " };
+
+        public Alien(int lifePoints, int maxLife, int columnPosition, int rowPosition, Game game, int points, bool right, int alienType) : base(lifePoints, maxLife, columnPosition, rowPosition, game)
         {
+            LifePoints = lifePoints;
+            MaxLife = maxLife;
+            Game = game;
             Right = right;
             Points = points;
-            LifePoints = lifepoints;
             ColumnPosition = columnPosition;
-            RowPosition = rowposition;
-            Model = model;
-            string[] modeln = model.Split('\n');
-            Width = modeln[0].Length;
-            Height = modeln.Count();
+            RowPosition = rowPosition;
+            switch(alienType)
+            {
+                case 1:
+                    Model = ALIEN1;
+                    break;
+                case 2:
+                    Model = ALIEN2;
+                    break;
+                case 3:
+                    Model = ALIEN3;
+                    break;
+                case 4:
+                    Model = ALIEN4;
+                    break;
+            }
+            Width = Model[0].Length;
+            Height = Model.Count();
         }
 
         public int Points
@@ -31,34 +52,25 @@ namespace Models
             set => points = value;
         }
         public bool Right { get => _right; set => _right = value; }
+        public int AlienType { get => _alienType; set => _alienType = value; }
 
-        /// <summary>
-        /// Display The Alien in multiple ligne
-        /// </summary>
-        public void Display()
+        public override void Erase()
         {
-            string[] model = Model.Split('\n');
-            for (int i = 0; i < model.Length; i++)
+            for (int i = 0; i < Width; i++)
             {
                 Console.SetCursorPosition(ColumnPosition, RowPosition + i);
-                Console.Write(model[i]);
+                for (int j = 0; j < Width; j++)
+                {
+                    Console.Write(" ");
+                }
             }
-        }
-
-        public void Erase()
-        {
-            string[] model = Model.Split('\n');
-            for (int i = 0; i < model.Length; i++)
-            {
-                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
-                Console.Write("               ");
-            }
+            Game.Score += points;
+            Game.DisplayScore();
         }
 
         public void Move(int x, int y)
         {
-            string[] model = Model.Split('\n');
-            Console.MoveBufferArea(ColumnPosition, RowPosition, model[0].Length, model.Length, ColumnPosition += x, RowPosition += y);
+            Console.MoveBufferArea(ColumnPosition, RowPosition, Width, Width, ColumnPosition += x, RowPosition += y);
         }
     }
 }
