@@ -60,6 +60,7 @@ namespace Models
         /// </summary>
         public void DisplayScore()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(8, 1);
             Console.Write("Score: " + score);
         }
@@ -68,6 +69,7 @@ namespace Models
         /// </summary>
         public void DisplayLife()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(90, 1);
             Console.Write("Life: " + vessel.LifePoints);
         }

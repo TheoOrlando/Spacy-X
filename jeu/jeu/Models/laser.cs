@@ -29,7 +29,7 @@ namespace Models
         {
             foreach(Wall wall in Game.WallList.ToArray())
             {
-                if(ColumnPosition < wall.ColumnPosition + wall.Width && ColumnPosition + Width > wall.ColumnPosition && RowPosition-2 < wall.RowPosition + wall.Height && Height + RowPosition > wall.RowPosition)
+                if(ColumnPosition < wall.ColumnPosition + wall.Width && ColumnPosition + Width > wall.ColumnPosition && RowPosition-1 < wall.RowPosition + wall.Height && Height + RowPosition > wall.RowPosition)
                 {
                     wall.LifePoints -= 1;
                     wall.Display();
@@ -40,18 +40,22 @@ namespace Models
 
             foreach(Alien alien in Game.AlienList.ToArray())
             {
-                if (ColumnPosition < alien.ColumnPosition + alien.Width && ColumnPosition + Width > alien.ColumnPosition && RowPosition - 2 < alien.RowPosition + alien.Height && Height + RowPosition > alien.RowPosition)
+                if (ColumnPosition < alien.ColumnPosition + alien.Width && ColumnPosition + Width > alien.ColumnPosition && RowPosition - 1 < alien.RowPosition + alien.Height && Height + RowPosition > alien.RowPosition)
                 {
                     alien.Erase();
                     Game.AlienList.Remove(alien);
                     this.Erase();
                     Game.Lasers.Remove(this);
+                    this.Erase();
                 }
             }
 
             if(RowPosition != 2)
             {
-                Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
+                //Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
+                this.Erase();
+                RowPosition -= 1;
+                this.Display();
             }
             else
             {

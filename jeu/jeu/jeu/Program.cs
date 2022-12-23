@@ -13,8 +13,8 @@ namespace jeu
     {
         static void boucle()
         {
-            ConsoleKey key;
-            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds - 500;
+            ConsoleKey? key = null;
+            double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds - 250;
             double waitTime = 0;
             for (int i = 1; i < 61; i++)
             {
@@ -49,7 +49,7 @@ namespace jeu
                         game.Vessel.Display();
                     }
                 }
-                if (i % 2 == 0)
+                if (i % 1 == 0)
                 {
                     foreach (Laser laser in game.Lasers.ToArray())
                     {
@@ -67,7 +67,7 @@ namespace jeu
                     if (game.AlienList.Count == 0)
                     {
                         DisplaySucessWave();
-
+                        break;
                     }
                 }
 
@@ -643,9 +643,9 @@ namespace jeu
 
             int x = 1;
             int y = 3;
-            for (int a = 1; a < 2; a++)
+            for (int a = 1; a < 4; a++)
             {
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     Alien alien = new Alien(1, x, y, game, true, a);
                     game.AlienList.Add(alien);
@@ -685,6 +685,11 @@ namespace jeu
 
         static void DisplaySucessWave()
         {
+            foreach(Laser laser in game.Lasers.ToArray())
+            {
+                laser.Erase();
+                game.Lasers.Remove(laser);
+            }
             Console.SetCursorPosition(0, 17);
             Console.Write(@"
                         _   _           _                                _        
@@ -698,7 +703,8 @@ namespace jeu
                 Thread.Sleep(1000);
                 EraseBeforeNextWave(j);
             }
-            StartGame("tot");
+            StartGame(game.Pseudo);
+            boucle();
         }
 
         static void DisplayBeforeNextWave(int index)

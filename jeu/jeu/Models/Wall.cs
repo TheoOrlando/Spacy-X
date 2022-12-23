@@ -28,6 +28,9 @@ namespace Models
         {
             switch (LifePoints)
             {
+                case 4:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
                 case 3:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
