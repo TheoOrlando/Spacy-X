@@ -11,7 +11,8 @@ namespace Models
     public class Laser : Entity
     {
         private readonly string[] MODEL = new string[] { "|"};
-        public Laser(int columnPosition, int rowPosition, Game game) : base(columnPosition, rowPosition, game)
+        private bool _direction;
+        public Laser(int columnPosition, int rowPosition, Game game, bool direction) : base(columnPosition, rowPosition, game)
         {
             ColumnPosition = columnPosition;
             RowPosition = rowPosition;
@@ -19,7 +20,10 @@ namespace Models
             Width = Model[0].Length;
             Height = Model.Count();
             Game = game;
+            Direction = direction;
         }
+
+        public bool Direction { get => _direction; set => _direction = value; }
 
         /// <summary>
         /// Move the laser in the enemy direction
@@ -27,41 +31,85 @@ namespace Models
         /// <param name="state"></param>
         public void Move()
         {
-            foreach(Wall wall in Game.WallList.ToArray())
+            if(_direction)
             {
-                if(ColumnPosition < wall.ColumnPosition + wall.Width && ColumnPosition + Width > wall.ColumnPosition && RowPosition-1 < wall.RowPosition + wall.Height && Height + RowPosition > wall.RowPosition)
+                if (RowPosition != 2)
                 {
-                    wall.LifePoints -= 1;
-                    wall.Display();
+                    //Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
                     this.Erase();
-                    Game.Lasers.Remove(this);
+                    RowPosition -= 1;
+                    this.Display();
                 }
-            }
-
-            foreach(Alien alien in Game.AlienList.ToArray())
-            {
-                if (ColumnPosition < alien.ColumnPosition + alien.Width && ColumnPosition + Width > alien.ColumnPosition && RowPosition - 1 < alien.RowPosition + alien.Height && Height + RowPosition > alien.RowPosition)
+                else
                 {
-                    alien.Erase();
-                    Game.AlienList.Remove(alien);
-                    this.Erase();
-                    Game.Lasers.Remove(this);
-                    this.Erase();
+                    Console.SetCursorPosition(ColumnPosition, RowPosition);
+                    Console.Write(" ");
+                    this.Model = null;
                 }
-            }
+                foreach (Wall wall in Game.WallList.ToArray())
+                {
+                    if (ColumnPosition < wall.ColumnPosition + wall.Width && ColumnPosition + Width > wall.ColumnPosition && RowPosition - 1 < wall.RowPosition + wall.Height && Height + RowPosition > wall.RowPosition)
+                    {
+                        wall.LifePoints -= 1;
+                        this.Erase();
+                        wall.Display();
+                        Game.LasersVesselList.Remove(this);
+                    }
+                }
 
-            if(RowPosition != 2)
-            {
-                //Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
-                this.Erase();
-                RowPosition -= 1;
-                this.Display();
+                foreach (Alien alien in Game.AlienList.ToArray())
+                {
+                    if (ColumnPosition < alien.ColumnPosition + alien.Width && ColumnPosition + Width > alien.ColumnPosition && RowPosition - 1 < alien.RowPosition + alien.Height && Height + RowPosition > alien.RowPosition)
+                    {
+                        alien.Erase();
+                        alien.Remove();
+                        Game.WaitTimeAlienShot += 2;
+                        Game.AlienList.Remove(alien);
+                        Game.LasersVesselList.Remove(this);
+                        this.Erase();
+                    }
+                }
             }
             else
             {
-                Console.SetCursorPosition(ColumnPosition, RowPosition);
-                Console.Write(" ");
-                this.Model = null;
+                if (RowPosition != 59)
+                {
+                    //Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
+                    this.Erase();
+                    RowPosition += 1;
+                    this.Display();
+                }
+                else
+                {
+                    Console.SetCursorPosition(ColumnPosition, RowPosition);
+                    Console.Write(" ");
+                    this.Model = null;
+                }
+                foreach (Alien alien in Game.AlienList.ToArray())
+                {
+                    if (ColumnPosition < alien.ColumnPosition + alien.Width && ColumnPosition + Width > alien.ColumnPosition && RowPosition - 1 < alien.RowPosition + alien.Height && Height + RowPosition > alien.RowPosition)
+                    {
+                        Game.LasersAlienList.Remove(this);
+                        this.Erase();
+                    }
+                }
+                foreach (Wall wall in Game.WallList.ToArray())
+                {
+                    if (ColumnPosition < wall.ColumnPosition + wall.Width && ColumnPosition + Width > wall.ColumnPosition && RowPosition - 1 < wall.RowPosition + wall.Height && Height + RowPosition > wall.RowPosition)
+                    {
+                        wall.LifePoints -= 1;
+                        this.Erase();
+                        wall.Display();
+                        Game.LasersAlienList.Remove(this);
+                    }
+                }
+                if (ColumnPosition < Game.Vessel.ColumnPosition + Game.Vessel.Width && ColumnPosition + Width > Game.Vessel.ColumnPosition && RowPosition - 1 < Game.Vessel.RowPosition + Game.Vessel.Height && Height + RowPosition > Game.Vessel.RowPosition)
+                {
+                    this.Erase();
+                    Game.LasersAlienList.Remove(this);
+                    Game.Vessel.LifePoints -= 1;
+                    Game.DisplayLife();
+                }
             }
         }
     }

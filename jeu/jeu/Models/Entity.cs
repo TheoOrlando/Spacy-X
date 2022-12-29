@@ -21,9 +21,6 @@ namespace Models
             RowPosition = rowPosition;
             Game = game;
         }
-
-
-
         public int ColumnPosition
         {
             get => columnPosition;

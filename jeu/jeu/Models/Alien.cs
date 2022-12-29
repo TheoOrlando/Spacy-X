@@ -58,16 +58,9 @@ namespace Models
         public bool Right { get => _right; set => _right = value; }
         public int AlienType { get => _alienType; set => _alienType = value; }
 
-        public override void Erase()
+        public void Remove()
         {
-            for (int i = 0; i < Width; i++)
-            {
-                Console.SetCursorPosition(ColumnPosition, RowPosition + i);
-                for (int j = 0; j < Width; j++)
-                {
-                    Console.Write(" ");
-                }
-            }
+            
             Game.AlienList.Remove(this);
             Game.Score += points;
             Game.DisplayScore();
@@ -76,6 +69,20 @@ namespace Models
         public void Move(int x, int y)
         {
             Console.MoveBufferArea(ColumnPosition, RowPosition, Width, Height, ColumnPosition += x, RowPosition += y);
+        }
+
+        /// <summary>
+        /// The vessel shot a laser
+        /// </summary>
+        public void Shot()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Laser laser = new Laser(ColumnPosition + Width/2, RowPosition + Height, Game, false);
+            Console.SetCursorPosition(laser.ColumnPosition, laser.RowPosition);
+            Console.Write(laser.Model[0]);
+            Game.LasersAlienList.Add(laser);
+            laser.Move();
+            laser.Move();
         }
     }
 }

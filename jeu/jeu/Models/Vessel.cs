@@ -28,10 +28,10 @@ namespace Models
         public void Shot()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Laser laser = new Laser(ColumnPosition + 5, RowPosition -1,Game);
+            Laser laser = new Laser(ColumnPosition + 5, RowPosition -1,Game, true);
             Console.SetCursorPosition(laser.ColumnPosition, laser.RowPosition);
             Console.Write(laser.Model[0]);
-            Game.Lasers.Add(laser);
+            Game.LasersVesselList.Add(laser);
         }
     }
 }

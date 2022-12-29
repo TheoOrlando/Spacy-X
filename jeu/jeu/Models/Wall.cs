@@ -68,5 +68,10 @@ namespace Models
             }
             Game.WallList.Remove(this);
         }
+
+        public void Remove()
+        {
+            Game.WallList.Remove(this);
+        }
     }
 }
