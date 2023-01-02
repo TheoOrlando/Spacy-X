@@ -107,7 +107,8 @@ namespace Models
                 {
                     this.Erase();
                     Game.LasersAlienList.Remove(this);
-                    Game.Vessel.LifePoints -= 1;
+                    Game.Vessel.BeenHit();
+                    //Game.Vessel.
                     Game.DisplayLife();
                 }
             }

@@ -12,7 +12,7 @@ namespace Models
     public class Game
     {
         private Random _random = new Random();
-        static int _waitTimeAlienShot = 10;
+        static double _waitTimeAlienShot = 10;
         private int _score = 0;
         private string _pseudo;
         private Vessel _vessel;
@@ -20,6 +20,7 @@ namespace Models
         private List<Wall> _wallList = new List<Wall>();
         private List<Laser> _lasersVesselList = new List<Laser>();
         private List<Laser> _lasersAlienList = new List<Laser>();
+        private double _vesselInvicibleTime;
 
         static string[,] beforeNextWave = new string[,] { {"                _ ", "   __ _  ___   | |", "  / _` |/ _ \\  | |", " | (_| | (_) | |_|", "  \\__, |\\___/  (_)", "  |___/           "},
             {"  _ "," / |", " | |", " | |", " |_|", ""},
@@ -62,7 +63,7 @@ namespace Models
             get => _lasersVesselList; 
             set => _lasersVesselList = value; 
         }
-        public static int WaitTimeAlienShot 
+        public double WaitTimeAlienShot 
         { 
             get => _waitTimeAlienShot; 
             set => _waitTimeAlienShot = value; 
@@ -71,6 +72,11 @@ namespace Models
         { 
             get => _lasersAlienList; 
             set => _lasersAlienList = value; 
+        }
+        public double VesselInvicibleTime 
+        { 
+            get => _vesselInvicibleTime; 
+            set => _vesselInvicibleTime = value; 
         }
 
         /// <summary>
@@ -148,6 +154,8 @@ namespace Models
             ConsoleKey? key = null;
             double lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds - 250;
             double waitTime = 0;
+            double startOfInvicibleVessel = 0;
+            _waitTimeAlienShot = 10;
             for (int i = 1; i < 61; i++)
             {
                 key = null;
@@ -160,6 +168,15 @@ namespace Models
 
                 if (i % 1 == 0)
                 {
+                    if (!_vessel.Movable && startOfInvicibleVessel == 0)
+                    {
+                        startOfInvicibleVessel = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                    }
+                    if (DateTime.Now.TimeOfDay.TotalMilliseconds - startOfInvicibleVessel >= 2000 && !_vessel.Movable)
+                    {
+                        _vessel.Movable = true;
+                        startOfInvicibleVessel = 0;
+                    }
                     //laser move
                     if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 500)
                     {
@@ -167,14 +184,14 @@ namespace Models
                         lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
                     }
 
-                    if (key == ConsoleKey.LeftArrow)
+                    if (key == ConsoleKey.LeftArrow && _vessel.Movable)
                     {
                         Vessel.Erase();
                         if (_vessel.ColumnPosition > 1)
                             _vessel.ColumnPosition -= 2;
                         _vessel.Display();
                     }
-                    if (key == ConsoleKey.RightArrow)
+                    if (key == ConsoleKey.RightArrow && _vessel.Movable)
                     {
                         _vessel.Erase();
                         if (_vessel.ColumnPosition < 109)
@@ -201,6 +218,16 @@ namespace Models
                     //alien move
                     this.AliensMovement();
                 }
+                //clignotement du vaisseau touché
+                if(i %1 == 0 && !_vessel.Movable)
+                {
+                    _vessel.Display();
+                }
+                if (i % 2 == 0 && !_vessel.Movable)
+                {
+                    _vessel.Erase();
+                }
+
                 if (i % WaitTimeAlienShot == 0)
                 {
                     if (_alienList.Count > 0)
@@ -234,6 +261,7 @@ namespace Models
         }
         public void DisplaySucessWave()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             foreach (Laser laser in _lasersVesselList.ToArray())
             {
                 laser.Erase();

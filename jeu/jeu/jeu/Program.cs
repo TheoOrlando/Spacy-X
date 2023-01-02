@@ -13,39 +13,47 @@ namespace jeu
     {
         const string CURSORRIGHT = "      ▄  \n▄▄▄▄▄▄██▄\n▀▀▀▀▀▀██▀\n      ▀  ";
         const string CURSORLEFT = "  ▄      \n▄██▄▄▄▄▄▄\n▀██▀▀▀▀▀▀\n  ▀      ";
-
-        static int cursorPosition = 0;
-
-        static string[] menuOptions = new string[] { "Play", "Options", "Scores", "About", "Exit" };
-        static string[] difficultys = new string[] { @"   ___  __ _ ___ _   _ =  / _ \/ _` / __| | | |= |  __/ (_| \__ \ |_| |=  \___|\__,_|___/\__, |=                  |___/",
+        static readonly string[] MENUOPTIONS = new string[] { "Play", "Options", "Scores", "About", "Exit" };
+        static readonly string[] DIFFICULTYS = new string[] { @"   ___  __ _ ___ _   _ =  / _ \/ _` / __| | | |= |  __/ (_| \__ \ |_| |=  \___|\__,_|___/\__, |=                  |___/",
                                                      @"                                   _ =  _ __   ___  _ __ _ __ ___   __ _| |= | '_ \ / _ \| '__| '_ ` _ \ / _` | |= | | | | (_) | |  | | | | | | (_| | |= |_| |_|\___/|_|  |_| |_| |_|\__,_|_|",
                                                      @"     _ _  __  __ _            _ _   =  __| (_)/ _|/ _(_) ___ _   _| | |_ = / _` | | |_| |_| |/ __| | | | | __|=| (_| | |  _|  _| | (__| |_| | | |_ = \__,_|_|_| |_| |_|\___|\__,_|_|\__|",
                                                      @"                 _                     _=  __ _  ___   __| |_ __ ___   ___   __| |= / _` |/ _ \ / _` | '_ ` _ \ / _ \ / _` |=| (_| | (_) | (_| | | | | | | (_) | (_| |= \__, |\___/ \__,_|_| |_| |_|\___/ \__,_|= |___/"};
-        static string[] musics = new string[] { @"   ___  _ __  =  / _ \| '_ \ = | (_) | | | |=  \___/|_| |_|",
+        static readonly string[] MUSICS = new string[] { @"   ___  _ __  =  / _ \| '_ \ = | (_) | | | |=  \___/|_| |_|",
                                                 @"         __  __ =   ___  / _|/ _|=  / _ \| |_| |_ = | (_) |  _|  _|=  \___/|_| |_|  =" };
-        static int[,] cursorPositionsMenu = new int[,] { { 37, 18 }, { 30, 27 }, { 32, 36 }, { 32, 44 }, { 37, 53 } };
-        static int[,,] cursorPositionOptions = new int[,,] { { { 23, 15 }, { 88, 15 } }, { { 33, 36 }, { 75, 36 } } };
-        static int[,] difficultysPositions = new int[,] { { 46, 15 }, { 41, 14 }, { 42, 14 }, { 38, 14 } };
-        static int[,] musicspositions = new int[,] { { 51, 36 }, { 50, 35 } };
+        static readonly int[,] CURSORPOSITIONMENU = new int[,] { { 37, 18 }, { 30, 27 }, { 32, 36 }, { 32, 44 }, { 37, 53 } };
+        static readonly int[,,] CURSORPOSITIONOPTIONS = new int[,,] { { { 23, 15 }, { 88, 15 } }, { { 33, 36 }, { 75, 36 } } };
+        static readonly int[,] DIFFICULTYSOPTIONS = new int[,] { { 46, 15 }, { 41, 14 }, { 42, 14 }, { 38, 14 } };
+        static readonly int[,] MUSICOPTIONS = new int[,] { { 51, 36 }, { 50, 35 } };
+        const int WINDOWHEIGHT = 60;
+        const int WINDOWWIDTH = 120;
+        const bool CURSORVISIBLE = false;
+        const string TITLE = "Spacy X";
+        const int MINOPTIONSMENU = 1;
+        const int MAXOPTIONSMENU = 5;
+        const int DIFFICULTYCURSORPOSITION = 0;
+        const int MUSICCURSORPOSITION = 1;
+        const int MINOPTIONS = 0;
+        const int MAXOPTIONSMENUOPTIONS = 2;
+        const int MINDIFFICULTY = 0;
+        const int MAXDIFFICULTY = 3;
+
+        static int cursorPosition = 1;
         static string activePage;
         static int nbOptions;
         static int difficulty = 1;
         static bool music = true;
-        static int cursorX = 0;
-        static int cursorY = 0;
-        static Game game = null;
         static string[] model;
 
         static void Main(string[] args)
         {
             //set the size of the console
-            Console.WindowHeight = 60;
-            Console.WindowWidth = 120;
-            Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
-            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+            Console.WindowHeight = WINDOWHEIGHT;
+            Console.WindowWidth = WINDOWWIDTH;
+            Console.SetWindowSize(WINDOWWIDTH, WINDOWHEIGHT);
+            Console.SetBufferSize(WINDOWWIDTH, WINDOWHEIGHT);
 
-            Console.CursorVisible = false;
-            Console.Title = "Spacy X";
+            Console.CursorVisible = CURSORVISIBLE;
+            Console.Title = TITLE;
 
             //write the menu
             DisplayMenu();
@@ -64,20 +72,20 @@ namespace jeu
                     // Turns the slider up a notch
                     case ConsoleKey.UpArrow:
                         EraseCursor();
-                        if (cursorPosition > 0)
+                        if (cursorPosition > MINOPTIONSMENU)
                             cursorPosition--;
                         DisplayCursor();
                         break;
                     // Moves the slider down a notch
                     case ConsoleKey.DownArrow:
                         EraseCursor();
-                        if (cursorPosition < 4)
+                        if (cursorPosition < MAXOPTIONSMENU)
                             cursorPosition++;
                         DisplayCursor();
                         break;
                     // Chose the entrance the cursor watch
                     case ConsoleKey.Enter:
-                        switch (menuOptions[cursorPosition])
+                        switch (MENUOPTIONS[cursorPosition - 1])
                         {
                             // display the page for the pseudo
                             case "Play":
@@ -122,7 +130,7 @@ namespace jeu
                     // Turns the slider up a notch
                     case ConsoleKey.UpArrow:
                         EraseCursor();
-                        if (cursorPosition > 0)
+                        if (cursorPosition > MINOPTIONS)
                             cursorPosition--;
                         DisplayCursor();
                         break;
@@ -136,12 +144,12 @@ namespace jeu
                     // change de difficuty or the music
                     case ConsoleKey.LeftArrow:
                         // change the difficulty godmod <= easy <= normal <= difficult <= godmod
-                        if (cursorPosition == 0)
+                        if (cursorPosition == DIFFICULTYCURSORPOSITION)
                         {
                             EraseDifficulty();
-                            if (difficulty == 0)
+                            if (difficulty == MINDIFFICULTY)
                             {
-                                difficulty = 3;
+                                difficulty = MAXDIFFICULTY;
                             }
                             else
                             {
@@ -150,7 +158,7 @@ namespace jeu
                             DisplayDifficulty();
                         }
                         // change the music off <= on <= off
-                        if (cursorPosition == 1)
+                        if (cursorPosition == MUSICCURSORPOSITION)
                         {
                             EraseMusic();
                             if (music)
@@ -167,12 +175,12 @@ namespace jeu
                     // change de difficuty or the music
                     case ConsoleKey.RightArrow:
                         // change the difficulty easy => normal => difficult => godmod => easy
-                        if (cursorPosition == 0)
+                        if (cursorPosition == DIFFICULTYCURSORPOSITION)
                         {
                             EraseDifficulty();
-                            if (difficulty == 3)
+                            if (difficulty == MAXDIFFICULTY)
                             {
-                                difficulty = 0;
+                                difficulty = MINDIFFICULTY;
                             }
                             else
                             {
@@ -181,7 +189,7 @@ namespace jeu
                             DisplayDifficulty();
                         }
                         // change the music on => off => on
-                        if (cursorPosition == 1)
+                        if (cursorPosition == MUSICCURSORPOSITION)
                         {
                             EraseMusic();
                             if (music == true)
@@ -225,17 +233,6 @@ namespace jeu
                         break;
                 }
             }
-        }
-        /// <summary>
-        /// erase the precedent pressed key
-        /// </summary>
-        static void EraseOtherKey()
-        {
-            cursorX = Console.CursorLeft;
-            cursorY = Console.CursorTop;
-            Console.SetCursorPosition(cursorX - 1, cursorY);
-            Console.Write(" ");
-            Console.SetCursorPosition(cursorX - 1, cursorY);
         }
         /// <summary>
         /// Display the main menu
@@ -300,8 +297,8 @@ namespace jeu
                                                  | |___ >  <| | |_
                                                  |_____/_/\_\_|\__|");
             activePage = "menu";
-            nbOptions = 5;
-            cursorPosition = 0;
+            nbOptions = MAXOPTIONSMENU;
+            cursorPosition = MINOPTIONSMENU;
             DisplayCursor();
             // start the key interpreter
             MenuKey();
@@ -318,7 +315,7 @@ namespace jeu
                     string[] model = CURSORRIGHT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionsMenu[cursorPosition, 0], cursorPositionsMenu[cursorPosition, 1] + i);
+                        Console.SetCursorPosition(CURSORPOSITIONMENU[cursorPosition - 1, 0], CURSORPOSITIONMENU[cursorPosition - 1, 1] + i);
                         Console.Write("         ");
                     }
                     break;
@@ -328,14 +325,14 @@ namespace jeu
                     model = CURSORLEFT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 0, 0], cursorPositionOptions[cursorPosition, 0, 1] + i);
+                        Console.SetCursorPosition(CURSORPOSITIONOPTIONS[cursorPosition, 0, 0], CURSORPOSITIONOPTIONS[cursorPosition, 0, 1] + i);
                         Console.Write("         ");
                     }
                     //write the right cursor on the option page
                     model = CURSORRIGHT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 1, 0], cursorPositionOptions[cursorPosition, 1, 1] + i);
+                        Console.SetCursorPosition(CURSORPOSITIONOPTIONS[cursorPosition, 1, 0], CURSORPOSITIONOPTIONS[cursorPosition, 1, 1] + i);
                         Console.Write("         ");
                     }
                     break;
@@ -354,7 +351,7 @@ namespace jeu
                     model = CURSORRIGHT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionsMenu[cursorPosition, 0], cursorPositionsMenu[cursorPosition, 1] + i);
+                        Console.SetCursorPosition(CURSORPOSITIONMENU[cursorPosition - 1, 0], CURSORPOSITIONMENU[cursorPosition - 1, 1] + i);
                         Console.Write(model[i]);
                     }
                     break;
@@ -363,14 +360,15 @@ namespace jeu
                     model = CURSORLEFT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 0, 0], cursorPositionOptions[cursorPosition, 0, 1] + i);
+                        //cursorPosition = 0;
+                        Console.SetCursorPosition(CURSORPOSITIONOPTIONS[cursorPosition, 0, 0], CURSORPOSITIONOPTIONS[cursorPosition, 0, 1] + i);
                         Console.Write(model[i]);
                     }
                     //write the right cursor on the option page
                     model = CURSORRIGHT.Split('\n');
                     for (int i = 0; i < model.Length; i++)
                     {
-                        Console.SetCursorPosition(cursorPositionOptions[cursorPosition, 1, 0], cursorPositionOptions[cursorPosition, 1, 1] + i);
+                        Console.SetCursorPosition(CURSORPOSITIONOPTIONS[cursorPosition, 1, 0], CURSORPOSITIONOPTIONS[cursorPosition, 1, 1] + i);
                         Console.Write(model[i]);
                     }
                     break;
@@ -384,10 +382,10 @@ namespace jeu
         {
 
             //write the cursor on the menu
-            model = difficultys[difficulty].Split('=');
+            model = DIFFICULTYS[difficulty].Split('=');
             for (int i = 0; i < model.Length; i++)
             {
-                Console.SetCursorPosition(difficultysPositions[difficulty, 0], difficultysPositions[difficulty, 1] + i);
+                Console.SetCursorPosition(DIFFICULTYSOPTIONS[difficulty, 0], DIFFICULTYSOPTIONS[difficulty, 1] + i);
                 Console.Write(model[i]);
             }
 
@@ -398,10 +396,10 @@ namespace jeu
         static void EraseDifficulty()
         {
             //write the cursor on the menu
-            model = difficultys[difficulty].Split('=');
+            model = DIFFICULTYS[difficulty].Split('=');
             for (int i = 0; i < model.Length; i++)
             {
-                Console.SetCursorPosition(difficultysPositions[difficulty, 0], difficultysPositions[difficulty, 1] + i);
+                Console.SetCursorPosition(DIFFICULTYSOPTIONS[difficulty, 0], DIFFICULTYSOPTIONS[difficulty, 1] + i);
                 Console.Write("                                         ");
             }
         }
@@ -413,20 +411,20 @@ namespace jeu
             if (music)
             {
                 //write the cursor on the menu
-                model = musics[0].Split('=');
+                model = MUSICS[0].Split('=');
                 for (int i = 0; i < model.Length; i++)
                 {
-                    Console.SetCursorPosition(musicspositions[0, 0], musicspositions[0, 1] + i);
+                    Console.SetCursorPosition(MUSICOPTIONS[0, 0], MUSICOPTIONS[0, 1] + i);
                     Console.Write(model[i]);
                 }
             }
             else
             {
                 //write the cursor on the menu
-                model = musics[1].Split('=');
+                model = MUSICS[1].Split('=');
                 for (int i = 0; i < model.Length; i++)
                 {
-                    Console.SetCursorPosition(musicspositions[1, 0], musicspositions[1, 1] + i);
+                    Console.SetCursorPosition(MUSICOPTIONS[1, 0], MUSICOPTIONS[1, 1] + i);
                     Console.Write(model[i]);
                 }
             }
@@ -440,20 +438,20 @@ namespace jeu
             if (music)
             {
                 //write the cursor on the menu
-                model = musics[1].Split('=');
+                model = MUSICS[1].Split('=');
                 for (int i = 0; i < model.Length; i++)
                 {
-                    Console.SetCursorPosition(musicspositions[1, 0], musicspositions[1, 1] + i);
+                    Console.SetCursorPosition(MUSICOPTIONS[1, 0], MUSICOPTIONS[1, 1] + i);
                     Console.Write("                    ");
                 }
             }
             else
             {
                 //write the cursor on the menu
-                model = musics[1].Split('=');
+                model = MUSICS[1].Split('=');
                 for (int i = 0; i < model.Length; i++)
                 {
-                    Console.SetCursorPosition(musicspositions[1, 0], musicspositions[1, 1] + i);
+                    Console.SetCursorPosition(MUSICOPTIONS[1, 0], MUSICOPTIONS[1, 1] + i);
                     Console.Write("                 ");
                 }
             }
@@ -506,8 +504,8 @@ namespace jeu
             DisplayDifficulty();
             DisplayMusic();
             activePage = "options";
-            nbOptions = 1;
-            cursorPosition = 0;
+            nbOptions = MINOPTIONSMENU;
+            cursorPosition = MINOPTIONS;
             DisplayCursor();
             OptionsKey();
         }
@@ -548,7 +546,7 @@ namespace jeu
         /// <param name="pseudo"></param>
         static void StartGame(string pseudo)
         {
-            game = new Game(pseudo);
+            Game game = new Game(pseudo);
             activePage = "game";
         }
     }
