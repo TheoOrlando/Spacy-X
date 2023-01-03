@@ -1,4 +1,14 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe Wall du programme défini les 
+ *propriété d'un mur les seuls alliés du joueur le 
+ *protégeant des tirs des aliens
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +65,9 @@ namespace Models
                 }
             }
         }
-
+        /// <summary>
+        /// Erase the Wall
+        /// </summary>
         public override void Erase()
         {
             for (int i = 0; i < Height; i++)
@@ -66,11 +78,6 @@ namespace Models
                     Console.Write(" ");
                 }
             }
-            Game.WallList.Remove(this);
-        }
-
-        public void Remove()
-        {
             Game.WallList.Remove(this);
         }
     }

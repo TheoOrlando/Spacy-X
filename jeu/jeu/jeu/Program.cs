@@ -1,4 +1,13 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: programme de jeu s'inspirant grandement du
+ *jeu space invaders
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -525,7 +534,10 @@ namespace jeu
                                                / \  | |__   ___  _   _| |_
                                               / _ \ | '_ \ / _ \| | | | __|
                                              / ___ \| |_) | (_) | |_| | |_
-                                            /_/   \_\_.__/ \___/ \__,_|\__|");
+                                            /_/   \_\_.__/ \___/ \__,_|\__|
+
+
+                    Ce jeu à été réalisé dans le cadre du projet P_DEV au sein de l'ETML par Theo Orlando");
             activePage = "about";
             Aboutkey();
         }

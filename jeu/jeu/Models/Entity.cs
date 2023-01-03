@@ -1,4 +1,13 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe abstract entity du programme défini
+ *les propriétés de base d'un élément du jeu
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,7 +61,9 @@ namespace Models
             get => model; 
             set => model = value; 
         }
-
+        /// <summary>
+        /// Display the model of the Entity
+        /// </summary>
         public virtual void Display()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -62,7 +73,9 @@ namespace Models
                 Console.Write(Model[i]);
             }
         }
-
+        /// <summary>
+        /// Erase the model of the Entity
+        /// </summary>
         public virtual void Erase()
         {
             for (int i = 0; i < Height; i++)

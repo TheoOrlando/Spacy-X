@@ -1,4 +1,13 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe Vessel du programme défini les 
+ *propriété d'un vaisseau l'élément contrôlé par le joueur
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +47,9 @@ namespace Models
             Console.Write(laser.Model[0]);
             Game.LasersVesselList.Add(laser);
         }
-
+        /// <summary>
+        /// Put the vessel on a invicible state and made him lose a lifepoint
+        /// </summary>
         public void BeenHit()
         {
             _movable = false;

@@ -1,4 +1,13 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe alien du programme qui deéfinie 
+ *ce qu'est un alien les ennemis du joueur
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -57,7 +66,9 @@ namespace Models
         }
         public bool Right { get => _right; set => _right = value; }
         public int AlienType { get => _alienType; set => _alienType = value; }
-
+        /// <summary>
+        /// Increase the score of the player and remove the alien of the alien liste
+        /// </summary>
         public void Remove()
         {
             
@@ -65,12 +76,6 @@ namespace Models
             Game.Score += points;
             Game.DisplayScore();
         }
-
-        public void Move(int x, int y)
-        {
-            Console.MoveBufferArea(ColumnPosition, RowPosition, Width, Height, ColumnPosition += x, RowPosition += y);
-        }
-
         /// <summary>
         /// The vessel shot a laser
         /// </summary>

@@ -1,4 +1,13 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe Laser du programme défini les 
+ *propriété d'un laser tiré par un vaisseau ou un alien
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;

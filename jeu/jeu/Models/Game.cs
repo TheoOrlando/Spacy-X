@@ -1,4 +1,13 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe game du programme, classe ou la 
+ *majeur partie du programme vas fonctioner
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -97,11 +106,39 @@ namespace Models
             Console.SetCursorPosition(90, 1);
             Console.Write("Life: " + _vessel.LifePoints);
         }
-
+        /// <summary>
+        /// Display The Game Over Menu
+        /// </summary>
         public void GameOver()
         {
-            Environment.Exit(0);
+            Console.Clear();
+            Console.SetCursorPosition(0, 20);
+            Console.Write(@"
+                                   ____                         ___                  
+                                  / ___| __ _ _ __ ___   ___   / _ \__   _____ _ __  
+                                 | |  _ / _` | '_ ` _ \ / _ \ | | | \ \ / / _ \ '__| 
+                                 | |_| | (_| | | | | | |  __/ | |_| |\ V /  __/ |    
+                                  \____|\__,_|_| |_| |_|\___|  \___/  \_/ \___|_| 
+
+
+
+                                  will you continue ?  y for yes / n for no");
+            while (true)
+            {
+                ConsoleKey key = Console.ReadKey(true).Key;
+                if(key == ConsoleKey.Y)
+                {
+                    Game game = new Game(this.Pseudo);
+                }
+                if (key == ConsoleKey.N)
+                {
+
+                }
+            }
         }
+        /// <summary>
+        /// Manage the movement of the aliens
+        /// </summary>
         public void AliensMovement()
         {
             bool changeDirection = false;
@@ -149,6 +186,9 @@ namespace Models
                 }
             }
         }
+        /// <summary>
+        /// Manage all the game events
+        /// </summary>
         public void boucle()
         {
             ConsoleKey? key = null;
@@ -259,6 +299,9 @@ namespace Models
                 }
             }
         }
+        /// <summary>
+        /// display the phrase Next wave in
+        /// </summary>
         public void DisplaySucessWave()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -282,6 +325,9 @@ namespace Models
             }
             ContinueGame();
         }
+        /// <summary>
+        /// Erase the phrase Next wave in
+        /// </summary>
         public void EraseSucessWave()
         {
             
@@ -291,7 +337,10 @@ namespace Models
                 Console.Write("                                                                                   ");
             }
         }
-
+        /// <summary>
+        /// Display the numbre of second before the next wave
+        /// </summary>
+        /// <param name="index"></param>
         public void DisplayBeforeNextWave(int index)
         {
             for (int i = 0; i < 6; i++)
@@ -300,6 +349,10 @@ namespace Models
                 Console.Write(beforeNextWave[index, i]);
             }
         }
+        /// <summary>
+        /// Erase the numbre of second before the next wave
+        /// </summary>
+        /// <param name="index"></param>
         public void EraseBeforeNextWave(int index)
         {
             for (int i = 0; i < 6; i++)
@@ -308,7 +361,9 @@ namespace Models
                 Console.Write("                      ");
             }
         }
-
+        /// <summary>
+        /// Create all the stuff to launch a new game
+        /// </summary>
         public void StartGame()
         {
             Console.Clear();
@@ -359,6 +414,9 @@ namespace Models
 
             this.boucle();
         }
+        /// <summary>
+        /// create all the stuff for a new wave of aliens
+        /// </summary>
         public void ContinueGame()
         {
             int x = 1;

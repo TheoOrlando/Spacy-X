@@ -1,4 +1,14 @@
-﻿using System;
+﻿/********************************************************
+ *Auteur: Theo Orlando
+ *Date: 10.10.2022
+ *Lieux: ETML/Domicile
+ *
+ *Description: classe abstract EntityWithLife du programme
+ *défini les propriété de base d'un élément du jeu avec 
+ *un nombre de vie
+ *
+ ********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
