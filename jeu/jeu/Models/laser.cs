@@ -93,6 +93,7 @@ namespace Models
                     Console.SetCursorPosition(ColumnPosition, RowPosition);
                     Console.Write(" ");
                     this.Model = null;
+                    Game.LasersAlienList.Remove(this);
                 }
                 foreach (Alien alien in Game.AlienList.ToArray())
                 {
@@ -112,9 +113,9 @@ namespace Models
                         Game.LasersAlienList.Remove(this);
                     }
                 }
-                if (ColumnPosition < Game.Vessel.ColumnPosition + Game.Vessel.Width && ColumnPosition + Width > Game.Vessel.ColumnPosition && RowPosition - 1 < Game.Vessel.RowPosition + Game.Vessel.Height && Height + RowPosition > Game.Vessel.RowPosition)
+                if (ColumnPosition < Game.Vessel.ColumnPosition + Game.Vessel.Width && ColumnPosition + Width > Game.Vessel.ColumnPosition && RowPosition - 1 < Game.Vessel.RowPosition + Game.Vessel.Height && Height + RowPosition > Game.Vessel.RowPosition && Game.Vessel.Movable)
                 {
-                    this.Erase();
+                    //this.Erase();
                     Game.LasersAlienList.Remove(this);
                     Game.Vessel.BeenHit();
                     //Game.Vessel.

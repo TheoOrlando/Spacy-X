@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Timers;
 using System.Threading;
-
+using System.IO;
 
 namespace Models
 {
@@ -30,6 +30,7 @@ namespace Models
         private List<Laser> _lasersVesselList = new List<Laser>();
         private List<Laser> _lasersAlienList = new List<Laser>();
         private double _vesselInvicibleTime;
+        private string[] _allGamers;
 
         static string[,] beforeNextWave = new string[,] { {"                _ ", "   __ _  ___   | |", "  / _` |/ _ \\  | |", " | (_| | (_) | |_|", "  \\__, |\\___/  (_)", "  |___/           "},
             {"  _ "," / |", " | |", " | |", " |_|", ""},
@@ -39,6 +40,10 @@ namespace Models
         public Game(string pseudo)
         {
             this._pseudo = pseudo;
+            if(File.Exists("./scores.txt"))
+            {
+                _allGamers = File.ReadAllLines("./scores.txt");
+            }
             this.StartGame();
         }
 
@@ -123,6 +128,36 @@ namespace Models
 
 
                                   will you continue ?  y for yes / n for no");
+            bool newPlayer = true;
+            string[] allGamers = new string[_allGamers.Length + 1];
+            StreamWriter file = new StreamWriter("./scores.txt");
+            foreach (string pseudo in _allGamers.ToArray())
+            {
+                if (pseudo.Split(' ')[0] == Pseudo)
+                {
+                    if(Convert.ToUInt32(pseudo.Split(' ')[1]) < Score)
+                    {
+                        pseudo.Split(' ')[1] = Score.ToString();
+                        newPlayer = false;
+                    }
+                }
+            }
+            if (newPlayer)
+            {
+                allGamers[_allGamers.Length] = Pseudo + " " + Score;
+                foreach (string gamer in allGamers)
+                {
+                    file.WriteLine(gamer);
+                }
+            }
+            else
+            {
+                foreach (string gamer in _allGamers)
+                {
+                    file.WriteLine(gamer);
+                }
+            }
+
             while (true)
             {
                 ConsoleKey key = Console.ReadKey(true).Key;
@@ -215,10 +250,11 @@ namespace Models
                     if (DateTime.Now.TimeOfDay.TotalMilliseconds - startOfInvicibleVessel >= 2000 && !_vessel.Movable)
                     {
                         _vessel.Movable = true;
+                        _vessel.Display();
                         startOfInvicibleVessel = 0;
                     }
                     //laser move
-                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 500)
+                    if (key == ConsoleKey.UpArrow && DateTime.Now.TimeOfDay.TotalMilliseconds - lastLaser >= 500 && Vessel.Movable)
                     {
                         _vessel.Shot();
                         lastLaser = DateTime.Now.TimeOfDay.TotalMilliseconds;
@@ -261,11 +297,11 @@ namespace Models
                 //clignotement du vaisseau touché
                 if(i %1 == 0 && !_vessel.Movable)
                 {
-                    _vessel.Display();
+                    _vessel.Erase();
                 }
                 if (i % 2 == 0 && !_vessel.Movable)
                 {
-                    _vessel.Erase();
+                    _vessel.Display();
                 }
 
                 if (i % WaitTimeAlienShot == 0)
@@ -309,6 +345,11 @@ namespace Models
             {
                 laser.Erase();
                 _lasersVesselList.Remove(laser);
+            }
+            foreach (Laser laser in _lasersAlienList.ToArray())
+            {
+                laser.Erase();
+                _lasersAlienList.Remove(laser);
             }
             Console.SetCursorPosition(0, 17);
             Console.Write(@"

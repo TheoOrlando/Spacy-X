@@ -56,7 +56,7 @@ namespace Models
             LifePoints--;
             if(LifePoints == 0)
             {
-                
+                Game.GameOver();
             }
         }
     }
