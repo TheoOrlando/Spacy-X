@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a random entity with life
+    /// </summary>
     abstract public class EntityWithLife : Entity
     {
         private int lifePoints;

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a wall
+    /// </summary>
     public class Wall : EntityWithLife
     {
         private readonly string[] MODEL = new string[] { " ████████████ ", "██████████████", "██████████████", "██████  ██████", "█████    █████" };

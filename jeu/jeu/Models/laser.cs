@@ -17,6 +17,9 @@ using System.Timers;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a laser
+    /// </summary>
     public class Laser : Entity
     {
         private readonly string[] MODEL = new string[] { "|"};

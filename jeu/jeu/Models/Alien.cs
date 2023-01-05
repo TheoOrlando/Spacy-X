@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a alien
+    /// </summary>
     public class Alien : EntityWithLife
     {
         private int points;

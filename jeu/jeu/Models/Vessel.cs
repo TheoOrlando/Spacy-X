@@ -16,6 +16,9 @@ using System.Timers;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a vessel
+    /// </summary>
     public class Vessel : EntityWithLife
     {
         private readonly string[] MODEL = new string[] { "     █      ", " ▄███████▄ ", "███████████", "▀▀▀▀▀▀▀▀▀▀▀" };

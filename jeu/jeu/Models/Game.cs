@@ -18,6 +18,9 @@ using System.IO;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a game
+    /// </summary>
     public class Game
     {
         private Random _random = new Random();
@@ -40,10 +43,7 @@ namespace Models
         public Game(string pseudo)
         {
             this._pseudo = pseudo;
-            if(File.Exists("./scores.txt"))
-            {
-                _allGamers = File.ReadAllLines("./scores.txt");
-            }
+
             this.StartGame();
         }
 
@@ -129,33 +129,53 @@ namespace Models
 
                                   will you continue ?  y for yes / n for no");
             bool newPlayer = true;
-            string[] allGamers = new string[_allGamers.Length + 1];
-            StreamWriter file = new StreamWriter("./scores.txt");
-            foreach (string pseudo in _allGamers.ToArray())
+            bool bestScore = false;
+            List<string> allGamers = new List<string>();
+            if (File.Exists("scores.txt"))
+            {
+                _allGamers = File.ReadAllLines("scores.txt");
+                foreach (string gamer in _allGamers)
+                {
+                    allGamers.Add(gamer);
+                }
+            }
+            StreamWriter file = new StreamWriter("scores.txt");
+
+            foreach (string pseudo in _allGamers)
             {
                 if (pseudo.Split(' ')[0] == Pseudo)
                 {
                     if(Convert.ToUInt32(pseudo.Split(' ')[1]) < Score)
                     {
                         pseudo.Split(' ')[1] = Score.ToString();
-                        newPlayer = false;
+                        bestScore = true;
                     }
+                    newPlayer = false;
                 }
             }
             if (newPlayer)
             {
-                allGamers[_allGamers.Length] = Pseudo + " " + Score;
+                allGamers.Add(Pseudo + " " + Score);
                 foreach (string gamer in allGamers)
                 {
-                    file.WriteLine(gamer);
+                    file.WriteLineAsync(gamer);
                 }
+                file.Close();
             }
             else
             {
                 foreach (string gamer in _allGamers)
                 {
-                    file.WriteLine(gamer);
+                    if (bestScore && gamer.Split(' ')[0] == Pseudo)
+                    {
+                        file.WriteLine(Pseudo + " " + Score);
+                    }
+                    else
+                    {
+                        file.WriteLineAsync(gamer);
+                    }
                 }
+                file.Close();
             }
 
             while (true)
@@ -167,7 +187,7 @@ namespace Models
                 }
                 if (key == ConsoleKey.N)
                 {
-
+                    Environment.Exit(0);
                 }
             }
         }

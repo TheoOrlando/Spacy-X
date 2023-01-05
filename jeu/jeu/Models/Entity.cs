@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
+    /// <summary>
+    /// class for a random Entity
+    /// </summary>
     abstract public class Entity
     {
         private int columnPosition;

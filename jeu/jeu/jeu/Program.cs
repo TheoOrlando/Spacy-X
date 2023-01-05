@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Models;
 using System.Timers;
 using System.Threading;
+using System.IO;
 
 namespace jeu
 {
@@ -53,6 +54,10 @@ namespace jeu
         static bool music = true;
         static string[] model;
 
+        /// <summary>
+        /// set the console parameter
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             //set the size of the console
@@ -66,6 +71,27 @@ namespace jeu
 
             //write the menu
             DisplayMenu();
+        }
+        /// <summary>
+        /// Key interpreter for the scores menu
+        /// </summary>
+        static void ScoresKey()
+        {
+            while (activePage == "scores")
+            {
+                // recovers the pressed key
+                ConsoleKey key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    // return to the main menu
+                    case ConsoleKey.Escape:
+                        DisplayMenu();
+                        break;
+                    // erase the other pressed key
+                    default:
+                        break;
+                }
+            }
         }
         /// <summary>
         /// Key interpreter for the main menu
@@ -106,11 +132,10 @@ namespace jeu
                                 break;
                             // display the highscores table
                             case "Scores":
+                                DisplayScores();
                                 break;
                             // display the about page
                             case "About":
-                                Console.Clear();
-                                activePage = "about";
                                 DisplayAbout();
                                 break;
                             // quits the application
@@ -311,6 +336,34 @@ namespace jeu
             DisplayCursor();
             // start the key interpreter
             MenuKey();
+        }
+        /// <summary>
+        /// Display the best players
+        /// </summary>
+        static void DisplayScores()
+        {
+            activePage = "scores";
+            string[] scores = null;
+            List<string> Players = new List<string>();
+            IEnumerable<string> tenBestPlayers = null;
+
+            if (File.Exists("scores.txt"))
+            {
+                scores = File.ReadAllLines("scores.txt");
+                foreach (string score in scores)
+                {
+                    Players.Add(score);
+                }
+                tenBestPlayers = from score in Players orderby score.Split(' ')[1] select score;
+            }
+            Console.Clear();
+            
+            for (int i = 0;i < 10 && i<Players.Count(); i++)
+            {
+                Console.SetCursorPosition(50, 10 + i);
+                Console.WriteLine(Players[i]);
+            }
+            ScoresKey();
         }
         /// <summary>
         /// erase the actual cursor
