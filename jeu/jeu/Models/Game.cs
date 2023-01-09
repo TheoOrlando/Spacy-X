@@ -46,7 +46,6 @@ namespace Models
 
             this.StartGame();
         }
-
         public int Score
         {
             get => _score;
@@ -382,7 +381,7 @@ namespace Models
             {
                 DisplayBeforeNextWave(j);
                 Thread.Sleep(1000);
-                EraseBeforeNextWave(j);
+                EraseBeforeNextWave();
             }
             ContinueGame();
         }
@@ -414,7 +413,7 @@ namespace Models
         /// Erase the numbre of second before the next wave
         /// </summary>
         /// <param name="index"></param>
-        public void EraseBeforeNextWave(int index)
+        public void EraseBeforeNextWave()
         {
             for (int i = 0; i < 6; i++)
             {

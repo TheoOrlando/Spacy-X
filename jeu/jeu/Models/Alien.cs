@@ -25,7 +25,7 @@ namespace Models
         private bool _right = true;
         private int _alienType;
 
-        private readonly string[] ALIEN1 = new string[] { "       ▄▄     ", "     ▄████▄   ", "    ██▄██▄██  ", "    ▄▀ ▀▀ ▀▄  ", "     ▀    ▀   " };
+        private readonly string[] ALIEN1 = new string[] { "       ▄▄     ", "     ▄████▄   ", "    ██▄██▄██  ", "    ▄▀ ▀▀ ▀▄  ", "     ▀    ▀   "};
         private readonly string[] ALIEN2 = new string[] { "    ▀▄   ▄▀   ", "   ▄█▀███▀█▄  ", "  █▀███████▀█ ", "  ▀ ▀▄▄ ▄▄▀ ▀ " };
         private readonly string[] ALIEN3 = new string[] { "  ▄▄▄████▄▄▄  ", " ███▀▀██▀▀███ ", " ▀▀███▀▀███▀▀ ", "  ▀█▄ ▀▀ ▄█▀  " };
         private readonly string[] ALIEN4 = new string[] { "   ▄▄██████▄▄   ", " ▄█▀██▀██▀██▀█▄ ", "▀▀███▀▀██▀▀███▀▀", "   ▀        ▀   " };
