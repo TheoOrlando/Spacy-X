@@ -47,7 +47,6 @@ namespace Models
             {
                 if (RowPosition != 2)
                 {
-                    //Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
                     this.Erase();
                     RowPosition -= 1;
                     this.Display();
@@ -86,7 +85,6 @@ namespace Models
             {
                 if (RowPosition != 59)
                 {
-                    //Console.MoveBufferArea(ColumnPosition, RowPosition, 1, 1, ColumnPosition, RowPosition -= 1);
                     this.Erase();
                     RowPosition += 1;
                     this.Display();
@@ -118,10 +116,8 @@ namespace Models
                 }
                 if (ColumnPosition < Game.Vessel.ColumnPosition + Game.Vessel.Width && ColumnPosition + Width > Game.Vessel.ColumnPosition && RowPosition - 1 < Game.Vessel.RowPosition + Game.Vessel.Height && Height + RowPosition > Game.Vessel.RowPosition && Game.Vessel.Movable)
                 {
-                    //this.Erase();
                     Game.LasersAlienList.Remove(this);
                     Game.Vessel.BeenHit();
-                    //Game.Vessel.
                     Game.DisplayLife();
                 }
             }

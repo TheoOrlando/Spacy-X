@@ -329,7 +329,11 @@ namespace jeu
                                                  | ____|_  _(_) |_
                                                  |  _| \ \/ / | __|
                                                  | |___ >  <| | |_
-                                                 |_____/_/\_\_|\__|");
+                                                 |_____/_/\_\_|\__|
+
+
+                                                                                    
+                                                                                                            version 1.0");
             activePage = "menu";
             nbOptions = MAXOPTIONSMENU;
             cursorPosition = MINOPTIONSMENU;
